@@ -43,10 +43,10 @@ protected $rack = null;
 {
     if (!isset(self::$maps[self::class])) {
         self::$maps[self::class] = [
-            new ProtocolField('nodeId', 'int32', false, [10,11,12], [9,10,11,12], [], [], null),
-new ProtocolField('host', 'string', false, [10,11,12], [9,10,11,12], [], [], null),
-new ProtocolField('port', 'int32', false, [10,11,12], [9,10,11,12], [], [], null),
-new ProtocolField('rack', 'string', false, [10,11,12], [9,10,11,12], [10,11,12], [], null),
+            new ProtocolField('nodeId', 'int32', false, [10,11,12,13], [9,10,11,12,13], [], [], null),
+new ProtocolField('host', 'string', false, [10,11,12,13], [9,10,11,12,13], [], [], null),
+new ProtocolField('port', 'int32', false, [10,11,12,13], [9,10,11,12,13], [], [], null),
+new ProtocolField('rack', 'string', false, [10,11,12,13], [9,10,11,12,13], [10,11,12,13], [], null),
 
         ];
         self::$taggedFieldses[self::class] = [
@@ -56,7 +56,7 @@ new ProtocolField('rack', 'string', false, [10,11,12], [9,10,11,12], [10,11,12],
 }
 public function getFlexibleVersions(): array
 {
-    return [9,10,11,12];
+    return [9,10,11,12,13];
 }
 
 

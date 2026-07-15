@@ -7,6 +7,7 @@ namespace longlang\phpkafka\Protocol;
 use longlang\phpkafka\Protocol\Type\AbstractType;
 use longlang\phpkafka\Protocol\Type\ArrayInt32;
 use longlang\phpkafka\Protocol\Type\CompactArray;
+use longlang\phpkafka\Protocol\Type\Int32;
 use longlang\phpkafka\Protocol\Type\TypeRelation;
 use longlang\phpkafka\Protocol\Type\UVarInt;
 
@@ -61,7 +62,21 @@ abstract class AbstractStruct implements \JsonSerializable
                 continue;
             }
             if ($value instanceof self) {
-                $item = $value->pack($apiVersion);
+                $packed = $value->pack($apiVersion);
+                // Records (RecordBatch) use a nullable length prefix.
+                // In flexible versions, the prefix is compact varint (UVarInt);
+                // in non-flexible versions it's int32. This matches Kafka's
+                // BaseRecords serialization (KIP-482).
+                if ($value instanceof \longlang\phpkafka\Protocol\RecordBatch\RecordBatch) {
+                    $isFlexible = \in_array($apiVersion, $protocolField->getFlexibleVersions());
+                    if ($isFlexible) {
+                        $item = UVarInt::pack(\strlen($packed) + 1) . $packed;
+                    } else {
+                        $item = Int32::pack(\strlen($packed)) . $packed;
+                    }
+                } else {
+                    $item = $packed;
+                }
             } else {
                 $type = $this->getType($apiVersion, $protocolField);
                 if ($protocolField->getIsArray()) {
