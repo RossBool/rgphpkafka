@@ -29,8 +29,8 @@ protected $records = null;
 {
     if (!isset(self::$maps[self::class])) {
         self::$maps[self::class] = [
-            new ProtocolField('index', 'int32', false, [0,1,2,3,4,5,6,7,8,9,10,11,12], [9,10,11,12], [], [], null),
-new ProtocolField('records', 'records', false, [0,1,2,3,4,5,6,7,8,9,10,11,12], [9,10,11,12], [0,1,2,3,4,5,6,7,8,9,10,11,12], [], null),
+            new ProtocolField('index', 'int32', false, [0,1,2,3,4,5,6,7,8], [], [], [], null),
+new ProtocolField('records', 'records', false, [0,1,2,3,4,5,6,7,8], [], [0,1,2,3,4,5,6,7,8], [], null),
 
         ];
         self::$taggedFieldses[self::class] = [
@@ -40,7 +40,7 @@ new ProtocolField('records', 'records', false, [0,1,2,3,4,5,6,7,8,9,10,11,12], [
 }
 public function getFlexibleVersions(): array
 {
-    return [9,10,11,12];
+    return [];
 }
 
 

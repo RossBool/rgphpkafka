@@ -29,8 +29,8 @@ protected $batchIndexErrorMessage = null;
 {
     if (!isset(self::$maps[self::class])) {
         self::$maps[self::class] = [
-            new ProtocolField('batchIndex', 'int32', false, [8,9,10,11,12], [9,10,11,12], [], [], null),
-new ProtocolField('batchIndexErrorMessage', 'string', false, [8,9,10,11,12], [9,10,11,12], [8,9,10,11,12], [], null),
+            new ProtocolField('batchIndex', 'int32', false, [8], [], [], [], null),
+new ProtocolField('batchIndexErrorMessage', 'string', false, [8], [], [8], [], null),
 
         ];
         self::$taggedFieldses[self::class] = [
@@ -40,7 +40,7 @@ new ProtocolField('batchIndexErrorMessage', 'string', false, [8,9,10,11,12], [9,
 }
 public function getFlexibleVersions(): array
 {
-    return [9,10,11,12];
+    return [];
 }
 
 

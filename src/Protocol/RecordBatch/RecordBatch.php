@@ -142,7 +142,9 @@ class RecordBatch extends AbstractStruct
         $result .= Int32::pack(ProtocolUtil::int32(hexdec(ProtocolUtil::crc32c($data))));
         $result .= $data;
 
-        return String32::pack($result);
+        // records type: int32 length prefix (nullable) + raw batch bytes.
+        // The length covers everything from BaseOffset to the last Record.
+        return Int32::pack(\strlen($result)) . $result;
     }
 
     public function unpack(string $data, ?int & $size = null, int $apiVersion = 0): void

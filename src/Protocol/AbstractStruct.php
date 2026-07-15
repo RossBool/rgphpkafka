@@ -72,7 +72,10 @@ abstract class AbstractStruct implements \JsonSerializable
                     // freshly created and only some fields are set) gets a type
                     // appropriate zero value. This mirrors the Java client's
                     // treatment of ignorable fields and keeps pack/unpack symmetric.
-                    if (null === $value) {
+                    // BUT: if the field IS nullable in this version, pass null
+                    // through unchanged so the type serializes its null sentinel
+                    // (e.g. CompactNullableString null = 0x00, not 0x01 for "").
+                    if (null === $value && !\in_array($apiVersion, $protocolField->getNullableVersions())) {
                         $value = $this->defaultValueForType($type);
                     }
                     $item = $type::pack($value);
@@ -240,6 +243,10 @@ abstract class AbstractStruct implements \JsonSerializable
             return $type;
         }
 
+        // Compact vs non-compact is controlled by the FIELD-level flexibleVersions.
+        // Apache marks fields "flexibleVersions: none" to mean they keep using
+        // non-compact encoding even in flexible message versions (e.g. RequestHeader
+        // clientId uses nullable string, NOT compact string, even in v2).
         $flexible = \in_array($apiVersion, $protocolField->getFlexibleVersions());
         $nullable = \in_array($apiVersion, $protocolField->getNullableVersions());
 

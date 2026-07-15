@@ -43,10 +43,10 @@ protected $topicData = [];
 {
     if (!isset(self::$maps[self::class])) {
         self::$maps[self::class] = [
-            new ProtocolField('transactionalId', 'string', false, [3,4,5,6,7,8,9,10,11,12], [9,10,11,12], [3,4,5,6,7,8,9,10,11,12], [], null),
-new ProtocolField('acks', 'int16', false, [0,1,2,3,4,5,6,7,8,9,10,11,12], [9,10,11,12], [], [], null),
-new ProtocolField('timeoutMs', 'int32', false, [0,1,2,3,4,5,6,7,8,9,10,11,12], [9,10,11,12], [], [], null),
-new ProtocolField('topicData', TopicProduceData::class, true, [0,1,2,3,4,5,6,7,8,9,10,11,12], [9,10,11,12], [], [], null),
+            new ProtocolField('transactionalId', 'string', false, [3,4,5,6,7,8], [], [3,4,5,6,7,8], [], null),
+new ProtocolField('acks', 'int16', false, [0,1,2,3,4,5,6,7,8], [], [], [], null),
+new ProtocolField('timeoutMs', 'int32', false, [0,1,2,3,4,5,6,7,8], [], [], [], null),
+new ProtocolField('topicData', TopicProduceData::class, true, [0,1,2,3,4,5,6,7,8], [], [], [], null),
 
         ];
         self::$taggedFieldses[self::class] = [
@@ -61,12 +61,12 @@ public function getRequestApiKey(): ?int
 
 public function getMaxSupportedVersion(): int
 {
-    return 12;
+    return 8;
 }
 
 public function getFlexibleVersions(): array
 {
-    return [9,10,11,12];
+    return [];
 }
 
 
