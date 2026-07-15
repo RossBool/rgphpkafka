@@ -32,7 +32,7 @@ class Int32 extends AbstractType
         return $result;
     }
 
-    public static function unpack(string $value, ?int &$size = null): int
+    public static function unpack(string $value, ?int & $size = null): int
     {
         $value = substr($value, 0, 4);
         if (!ProtocolUtil::nativeIsBigEndian()) {

@@ -21,7 +21,7 @@ class CompactNullableString extends AbstractType
         return UVarInt::pack($length) . $value;
     }
 
-    public static function unpack(string $value, ?int &$size = null): ?string
+    public static function unpack(string $value, ?int & $size = null): ?string
     {
         $length = UVarInt::unpack($value, $size) - 1;
         if (-1 === $length) {

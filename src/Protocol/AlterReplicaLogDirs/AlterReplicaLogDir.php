@@ -10,63 +10,77 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class AlterReplicaLogDir extends AbstractStruct
 {
     /**
-     * The absolute directory path.
-     *
-     * @var string
-     */
-    protected $path = '';
+ * The absolute directory path.
+ *
+ * @var string
+ */
+protected $path = '';
 
-    /**
-     * The topics to add to the directory.
-     *
-     * @var AlterReplicaLogDirTopic[]
-     */
-    protected $topics = [];
+/**
+ * The topics to add to the directory.
+ *
+ * @var AlterReplicaLogDirTopic[]
+ */
+protected $topics = [];
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('path', 'string', false, [0, 1], [], [], [], null),
-                new ProtocolField('topics', AlterReplicaLogDirTopic::class, true, [0, 1], [], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
-    }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('path', 'string', false, [0,1,2], [2], [], [], null),
+new ProtocolField('topics', AlterReplicaLogDirTopic::class, true, [0,1,2], [2], [], [], null),
 
-    public function getFlexibleVersions(): array
-    {
-        return [];
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getFlexibleVersions(): array
+{
+    return [2];
+}
 
-    public function getPath(): string
-    {
-        return $this->path;
-    }
-
-    public function setPath(string $path): self
-    {
-        $this->path = $path;
-
-        return $this;
-    }
 
     /**
-     * @return AlterReplicaLogDirTopic[]
-     */
-    public function getTopics(): array
-    {
-        return $this->topics;
-    }
+ * @return string
+ */
+public function getPath(): string
+{
+    return $this->path;
+}
 
-    /**
-     * @param AlterReplicaLogDirTopic[] $topics
-     */
-    public function setTopics(array $topics): self
-    {
-        $this->topics = $topics;
+/**
+ * @param string $path
+ *
+ * @return self
+ */
+public function setPath(string $path): self
+{
+    $this->path = $path;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return AlterReplicaLogDirTopic[]
+ */
+public function getTopics(): array
+{
+    return $this->topics;
+}
+
+/**
+ * @param AlterReplicaLogDirTopic[] $topics
+ *
+ * @return self
+ */
+public function setTopics(array $topics): self
+{
+    $this->topics = $topics;
+
+    return $this;
+}
+
 }

@@ -145,7 +145,7 @@ class RecordBatch extends AbstractStruct
         return String32::pack($result);
     }
 
-    public function unpack(string $data, ?int &$size = null, int $apiVersion = 0): void
+    public function unpack(string $data, ?int & $size = null, int $apiVersion = 0): void
     {
         $length = Int32::unpack($data, $tmpSize);
         $size = $tmpSize;

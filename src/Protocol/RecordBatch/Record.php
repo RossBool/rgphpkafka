@@ -81,7 +81,7 @@ class Record extends AbstractStruct
         return VarInt::pack($length) . $data;
     }
 
-    public function unpack(string $data, ?int &$size = null, int $apiVersion = 0): void
+    public function unpack(string $data, ?int & $size = null, int $apiVersion = 0): void
     {
         $size = 0;
         if ('' === $data) {

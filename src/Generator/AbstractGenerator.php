@@ -78,10 +78,17 @@ abstract class AbstractGenerator
                 $phpType = null;
                 $hasGenerated = $this->messageGenerator->hasGenerated($type);
                 if (!$hasGenerated && !isset($field->fields)) {
-                    throw new \RuntimeException(sprintf('Unsupport type %s', $type));
+                    // Last resort: this may be a commonStruct declared out-of-order
+                    // (struct A references struct B, but B is declared after A).
+                    // Try to find and generate it from the message's commonStructs.
+                    if (!$this->messageGenerator->tryGenerateCommonStruct($type)) {
+                        throw new \RuntimeException(sprintf('Unsupport type %s', $type));
+                    }
+                    $hasGenerated = true;
                 } elseif (!$hasGenerated) {
                     $this->messageGenerator->generateStruct($type, $field);
                 }
+                $phpType = $type;
                 $typeWithNamespace = $type . '::class';
             }
             $propertyName = lcfirst($field->name);
@@ -187,10 +194,10 @@ CODE;
             return [(int) $matches['single']];
         }
         if ('' !== ($matches['plus'] ?? '')) {
-            return range($matches['plus'], $maxVersion);
+            return range((int) $matches['plus'], (int) $maxVersion);
         }
         if ('' !== ($matches['from'] ?? '') && '' !== ($matches['to'] ?? '')) {
-            return range($matches['from'], $matches['to']);
+            return range((int) $matches['from'], (int) $matches['to']);
         }
         throw new \InvalidArgumentException(sprintf('Invalid versions %s', $versions));
     }
@@ -217,9 +224,14 @@ CODE;
             }
         } elseif ('null' === $default) {
             return 'null';
+        } elseif (is_bool($default)) {
+            // JSON boolean (true/false) — emit PHP literal directly
+            return $default ? 'true' : 'false';
         } else {
             switch ($phpType) {
                 case 'bool':
+                    // String "true"/"false" from older JSON format
+                    return (strtolower((string) $default) === 'false' || $default === '0') ? 'false' : 'true';
                 case 'float':
                 case 'int':
                     return (string) $default;

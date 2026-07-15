@@ -44,7 +44,7 @@ class CompactArray extends AbstractType
         return $result;
     }
 
-    public static function unpack(string $value, ?int &$size, string $elementType, int $apiVersion = 0): ?array
+    public static function unpack(string $value, ?int & $size, string $elementType, int $apiVersion = 0): ?array
     {
         $length = UVarInt::unpack($value, $tmpSize) - 1;
         if ($length > 0) {

@@ -10,68 +10,82 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class DeleteRecordsResponse extends AbstractResponse
 {
     /**
-     * The duration in milliseconds for which the request was throttled due to a quota violation, or zero if the request did not violate any quota.
-     *
-     * @var int
-     */
-    protected $throttleTimeMs = 0;
+ * The duration in milliseconds for which the request was throttled due to a quota violation, or zero if the request did not violate any quota.
+ *
+ * @var int
+ */
+protected $throttleTimeMs = 0;
 
-    /**
-     * Each topic that we wanted to delete records from.
-     *
-     * @var DeleteRecordsTopicResult[]
-     */
-    protected $topics = [];
+/**
+ * Each topic that we wanted to delete records from.
+ *
+ * @var DeleteRecordsTopicResult[]
+ */
+protected $topics = [];
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('throttleTimeMs', 'int32', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('topics', DeleteRecordsTopicResult::class, true, [0, 1, 2], [2], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
-    }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('throttleTimeMs', 'int32', false, [0,1,2], [2], [], [], null),
+new ProtocolField('topics', DeleteRecordsTopicResult::class, true, [0,1,2], [2], [], [], null),
 
-    public function getRequestApiKey(): ?int
-    {
-        return 21;
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getRequestApiKey(): ?int
+{
+    return 21;
+}
 
-    public function getFlexibleVersions(): array
-    {
-        return [2];
-    }
+public function getFlexibleVersions(): array
+{
+    return [2];
+}
 
-    public function getThrottleTimeMs(): int
-    {
-        return $this->throttleTimeMs;
-    }
-
-    public function setThrottleTimeMs(int $throttleTimeMs): self
-    {
-        $this->throttleTimeMs = $throttleTimeMs;
-
-        return $this;
-    }
 
     /**
-     * @return DeleteRecordsTopicResult[]
-     */
-    public function getTopics(): array
-    {
-        return $this->topics;
-    }
+ * @return int
+ */
+public function getThrottleTimeMs(): int
+{
+    return $this->throttleTimeMs;
+}
 
-    /**
-     * @param DeleteRecordsTopicResult[] $topics
-     */
-    public function setTopics(array $topics): self
-    {
-        $this->topics = $topics;
+/**
+ * @param int $throttleTimeMs
+ *
+ * @return self
+ */
+public function setThrottleTimeMs(int $throttleTimeMs): self
+{
+    $this->throttleTimeMs = $throttleTimeMs;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return DeleteRecordsTopicResult[]
+ */
+public function getTopics(): array
+{
+    return $this->topics;
+}
+
+/**
+ * @param DeleteRecordsTopicResult[] $topics
+ *
+ * @return self
+ */
+public function setTopics(array $topics): self
+{
+    $this->topics = $topics;
+
+    return $this;
+}
+
 }

@@ -21,7 +21,7 @@ class NullableString extends AbstractType
         return Int16::pack($length) . $value;
     }
 
-    public static function unpack(string $value, ?int &$size = null): ?string
+    public static function unpack(string $value, ?int & $size = null): ?string
     {
         $length = Int16::unpack($value, $size);
         if (-1 === $length) {

@@ -68,7 +68,20 @@ abstract class AbstractStruct implements \JsonSerializable
                     $arrayType = $this->getArrayType($apiVersion, $protocolField);
                     $item = $arrayType::pack($value, $type, $apiVersion);
                 } elseif (is_subclass_of($type, AbstractType::class)) {
+                    // A non-nullable field left as null (common when a struct is
+                    // freshly created and only some fields are set) gets a type
+                    // appropriate zero value. This mirrors the Java client's
+                    // treatment of ignorable fields and keeps pack/unpack symmetric.
+                    if (null === $value) {
+                        $value = $this->defaultValueForType($type);
+                    }
                     $item = $type::pack($value);
+                } elseif (is_subclass_of($type, self::class)) {
+                    // Struct field left as null: instantiate an empty struct so pack
+                    // stays symmetric with unpack (which always news up a struct).
+                    $value = new $type();
+                    $this->$fieldName = $value;
+                    $item = $value->pack($apiVersion);
                 } else {
                     throw new \InvalidArgumentException(sprintf('Invalid type %s', $protocolField->getTypeForDisplay()));
                 }
@@ -89,7 +102,7 @@ abstract class AbstractStruct implements \JsonSerializable
         }
     }
 
-    public function unpack(string $data, ?int &$size = null, int $apiVersion = 0): void
+    public function unpack(string $data, ?int & $size = null, int $apiVersion = 0): void
     {
         $parsedfieldsNames = [];
         $size = $tmpSize = 0;
@@ -132,7 +145,7 @@ abstract class AbstractStruct implements \JsonSerializable
     /**
      * @return mixed
      */
-    protected function unpackItem(int $apiVersion, string $data, ProtocolField $protocolField, ?int &$tmpSize)
+    protected function unpackItem(int $apiVersion, string $data, ProtocolField $protocolField, ?int & $tmpSize)
     {
         $type = $protocolField->getType();
         if ($protocolField->getIsArray()) {
@@ -247,5 +260,27 @@ abstract class AbstractStruct implements \JsonSerializable
         }
 
         return '\longlang\phpkafka\Protocol\Type\\' . TypeRelation::TYPE_RELATION[$type][$index];
+    }
+
+    /**
+     * Returns a type-appropriate zero value for a non-nullable field that was
+     * left as null. Used during pack to keep symmetry with unpack.
+     *
+     * @return mixed
+     */
+    private function defaultValueForType(string $typeClass)
+    {
+        // Map the concrete Type class back to its PHP zero value.
+        static $phpTypeMap = [
+            'Boolean' => false, 'Int8' => 0, 'Int16' => 0, 'Int32' => 0,
+            'Int64' => 0, 'UInt16' => 0, 'Float64' => 0.0,
+            'String16' => '', 'CompactString' => '', 'NullableString' => '',
+            'String32' => '', 'NullableString32' => '', 'CompactNullableString' => '',
+            'CompactNullableString' => '', 'Uuid' => '',
+            'varint' => 0, 'UVarInt' => 0,
+        ];
+        $shortName = substr(strrchr($typeClass, '\\'), 1) ?: $typeClass;
+
+        return $phpTypeMap[$shortName] ?? '';
     }
 }

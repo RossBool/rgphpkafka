@@ -15,7 +15,7 @@ class CompactString extends AbstractType
         return UVarInt::pack(\strlen($value) + 1) . $value;
     }
 
-    public static function unpack(string $value, ?int &$size = null): string
+    public static function unpack(string $value, ?int & $size = null): string
     {
         $length = UVarInt::unpack($value, $size) - 1;
         $result = substr($value, $size, $length);

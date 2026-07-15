@@ -33,7 +33,7 @@ class UVarInt extends AbstractType
         return $buffer;
     }
 
-    public static function unpack(string $value, ?int &$size = null): int
+    public static function unpack(string $value, ?int & $size = null): int
     {
         $result = 0;
         $i = 0;

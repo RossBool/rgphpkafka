@@ -10,53 +10,60 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class CreateAclsRequest extends AbstractRequest
 {
     /**
-     * The ACLs that we want to create.
-     *
-     * @var AclCreation[]
-     */
-    protected $creations = [];
+ * The ACLs that we want to create.
+ *
+ * @var AclCreation[]
+ */
+protected $creations = [];
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('creations', AclCreation::class, true, [0, 1, 2], [2], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
-    }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('creations', AclCreation::class, true, [0,1,2,3], [2,3], [], [], null),
 
-    public function getRequestApiKey(): ?int
-    {
-        return 30;
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getRequestApiKey(): ?int
+{
+    return 30;
+}
 
-    public function getMaxSupportedVersion(): int
-    {
-        return 2;
-    }
+public function getMaxSupportedVersion(): int
+{
+    return 3;
+}
 
-    public function getFlexibleVersions(): array
-    {
-        return [2];
-    }
+public function getFlexibleVersions(): array
+{
+    return [2,3];
+}
 
-    /**
-     * @return AclCreation[]
-     */
-    public function getCreations(): array
-    {
-        return $this->creations;
-    }
 
     /**
-     * @param AclCreation[] $creations
-     */
-    public function setCreations(array $creations): self
-    {
-        $this->creations = $creations;
+ * @return AclCreation[]
+ */
+public function getCreations(): array
+{
+    return $this->creations;
+}
 
-        return $this;
-    }
+/**
+ * @param AclCreation[] $creations
+ *
+ * @return self
+ */
+public function setCreations(array $creations): self
+{
+    $this->creations = $creations;
+
+    return $this;
+}
+
 }

@@ -10,63 +10,104 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class TopicProduceData extends AbstractStruct
 {
     /**
-     * The topic name.
-     *
-     * @var string
-     */
-    protected $name = '';
+ * The topic name.
+ *
+ * @var string
+ */
+protected $name = '';
 
-    /**
-     * Each partition to produce to.
-     *
-     * @var PartitionProduceData[]
-     */
-    protected $partitions = [];
+/**
+ * The unique topic ID
+ *
+ * @var string
+ */
+protected $topicId = '';
+
+/**
+ * Each partition to produce to.
+ *
+ * @var PartitionProduceData[]
+ */
+protected $partitionData = [];
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('name', 'string', false, [0, 1, 2, 3, 4, 5, 6, 7, 8], [], [], [], null),
-                new ProtocolField('partitions', PartitionProduceData::class, true, [0, 1, 2, 3, 4, 5, 6, 7, 8], [], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
-    }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('name', 'string', false, [0,1,2,3,4,5,6,7,8,9,10,11,12], [9,10,11,12,13], [], [], null),
+new ProtocolField('topicId', 'uuid', false, [13], [9,10,11,12,13], [], [], null),
+new ProtocolField('partitionData', PartitionProduceData::class, true, [0,1,2,3,4,5,6,7,8,9,10,11,12,13], [9,10,11,12,13], [], [], null),
 
-    public function getFlexibleVersions(): array
-    {
-        return [];
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getFlexibleVersions(): array
+{
+    return [9,10,11,12,13];
+}
 
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
 
     /**
-     * @return PartitionProduceData[]
-     */
-    public function getPartitions(): array
-    {
-        return $this->partitions;
-    }
+ * @return string
+ */
+public function getName(): string
+{
+    return $this->name;
+}
 
-    /**
-     * @param PartitionProduceData[] $partitions
-     */
-    public function setPartitions(array $partitions): self
-    {
-        $this->partitions = $partitions;
+/**
+ * @param string $name
+ *
+ * @return self
+ */
+public function setName(string $name): self
+{
+    $this->name = $name;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return string
+ */
+public function getTopicId(): string
+{
+    return $this->topicId;
+}
+
+/**
+ * @param string $topicId
+ *
+ * @return self
+ */
+public function setTopicId(string $topicId): self
+{
+    $this->topicId = $topicId;
+
+    return $this;
+}
+/**
+ * @return PartitionProduceData[]
+ */
+public function getPartitionData(): array
+{
+    return $this->partitionData;
+}
+
+/**
+ * @param PartitionProduceData[] $partitionData
+ *
+ * @return self
+ */
+public function setPartitionData(array $partitionData): self
+{
+    $this->partitionData = $partitionData;
+
+    return $this;
+}
+
 }

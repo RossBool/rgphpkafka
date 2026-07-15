@@ -17,7 +17,7 @@ class VarInt extends AbstractType
         return UVarInt::pack(($value << 1) ^ ($value >> 31));
     }
 
-    public static function unpack(string $value, ?int &$size = null): int
+    public static function unpack(string $value, ?int & $size = null): int
     {
         $result = UVarInt::unpack($value, $size);
 

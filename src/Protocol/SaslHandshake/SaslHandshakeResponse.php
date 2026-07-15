@@ -10,68 +10,82 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class SaslHandshakeResponse extends AbstractResponse
 {
     /**
-     * The error code, or 0 if there was no error.
-     *
-     * @var int
-     */
-    protected $errorCode = 0;
+ * The error code, or 0 if there was no error.
+ *
+ * @var int
+ */
+protected $errorCode = 0;
 
-    /**
-     * The mechanisms enabled in the server.
-     *
-     * @var string[]
-     */
-    protected $mechanisms = [];
+/**
+ * The mechanisms enabled in the server.
+ *
+ * @var string[]
+ */
+protected $mechanisms = [];
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('errorCode', 'int16', false, [0, 1], [], [], [], null),
-                new ProtocolField('mechanisms', 'string', true, [0, 1], [], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
-    }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('errorCode', 'int16', false, [0,1], [], [], [], null),
+new ProtocolField('mechanisms', 'string', true, [0,1], [], [], [], null),
 
-    public function getRequestApiKey(): ?int
-    {
-        return 17;
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getRequestApiKey(): ?int
+{
+    return 17;
+}
 
-    public function getFlexibleVersions(): array
-    {
-        return [];
-    }
+public function getFlexibleVersions(): array
+{
+    return [];
+}
 
-    public function getErrorCode(): int
-    {
-        return $this->errorCode;
-    }
-
-    public function setErrorCode(int $errorCode): self
-    {
-        $this->errorCode = $errorCode;
-
-        return $this;
-    }
 
     /**
-     * @return string[]
-     */
-    public function getMechanisms(): array
-    {
-        return $this->mechanisms;
-    }
+ * @return int
+ */
+public function getErrorCode(): int
+{
+    return $this->errorCode;
+}
 
-    /**
-     * @param string[] $mechanisms
-     */
-    public function setMechanisms(array $mechanisms): self
-    {
-        $this->mechanisms = $mechanisms;
+/**
+ * @param int $errorCode
+ *
+ * @return self
+ */
+public function setErrorCode(int $errorCode): self
+{
+    $this->errorCode = $errorCode;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return string[]
+ */
+public function getMechanisms(): array
+{
+    return $this->mechanisms;
+}
+
+/**
+ * @param string[] $mechanisms
+ *
+ * @return self
+ */
+public function setMechanisms(array $mechanisms): self
+{
+    $this->mechanisms = $mechanisms;
+
+    return $this;
+}
+
 }

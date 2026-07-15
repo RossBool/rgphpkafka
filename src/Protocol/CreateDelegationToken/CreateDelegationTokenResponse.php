@@ -10,202 +10,325 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class CreateDelegationTokenResponse extends AbstractResponse
 {
     /**
-     * The top-level error, or zero if there was no error.
-     *
-     * @var int
-     */
-    protected $errorCode = 0;
+ * The top-level error, or zero if there was no error.
+ *
+ * @var int
+ */
+protected $errorCode = 0;
 
-    /**
-     * The principal type of the token owner.
-     *
-     * @var string
-     */
-    protected $principalType = '';
+/**
+ * The principal type of the token owner.
+ *
+ * @var string
+ */
+protected $principalType = '';
 
-    /**
-     * The name of the token owner.
-     *
-     * @var string
-     */
-    protected $principalName = '';
+/**
+ * The name of the token owner.
+ *
+ * @var string
+ */
+protected $principalName = '';
 
-    /**
-     * When this token was generated.
-     *
-     * @var int
-     */
-    protected $issueTimestampMs = 0;
+/**
+ * The principal type of the requester of the token.
+ *
+ * @var string
+ */
+protected $tokenRequesterPrincipalType = '';
 
-    /**
-     * When this token expires.
-     *
-     * @var int
-     */
-    protected $expiryTimestampMs = 0;
+/**
+ * The principal type of the requester of the token.
+ *
+ * @var string
+ */
+protected $tokenRequesterPrincipalName = '';
 
-    /**
-     * The maximum lifetime of this token.
-     *
-     * @var int
-     */
-    protected $maxTimestampMs = 0;
+/**
+ * When this token was generated.
+ *
+ * @var int
+ */
+protected $issueTimestampMs = 0;
 
-    /**
-     * The token UUID.
-     *
-     * @var string
-     */
-    protected $tokenId = '';
+/**
+ * When this token expires.
+ *
+ * @var int
+ */
+protected $expiryTimestampMs = 0;
 
-    /**
-     * HMAC of the delegation token.
-     *
-     * @var string
-     */
-    protected $hmac = '';
+/**
+ * The maximum lifetime of this token.
+ *
+ * @var int
+ */
+protected $maxTimestampMs = 0;
 
-    /**
-     * The duration in milliseconds for which the request was throttled due to a quota violation, or zero if the request did not violate any quota.
-     *
-     * @var int
-     */
-    protected $throttleTimeMs = 0;
+/**
+ * The token UUID.
+ *
+ * @var string
+ */
+protected $tokenId = '';
+
+/**
+ * HMAC of the delegation token.
+ *
+ * @var string
+ */
+protected $hmac = '';
+
+/**
+ * The duration in milliseconds for which the request was throttled due to a quota violation, or zero if the request did not violate any quota.
+ *
+ * @var int
+ */
+protected $throttleTimeMs = 0;
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('errorCode', 'int16', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('principalType', 'string', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('principalName', 'string', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('issueTimestampMs', 'int64', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('expiryTimestampMs', 'int64', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('maxTimestampMs', 'int64', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('tokenId', 'string', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('hmac', 'bytes', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('throttleTimeMs', 'int32', false, [0, 1, 2], [2], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('errorCode', 'int16', false, [0,1,2,3], [2,3], [], [], null),
+new ProtocolField('principalType', 'string', false, [0,1,2,3], [2,3], [], [], null),
+new ProtocolField('principalName', 'string', false, [0,1,2,3], [2,3], [], [], null),
+new ProtocolField('tokenRequesterPrincipalType', 'string', false, [3], [2,3], [], [], null),
+new ProtocolField('tokenRequesterPrincipalName', 'string', false, [3], [2,3], [], [], null),
+new ProtocolField('issueTimestampMs', 'int64', false, [0,1,2,3], [2,3], [], [], null),
+new ProtocolField('expiryTimestampMs', 'int64', false, [0,1,2,3], [2,3], [], [], null),
+new ProtocolField('maxTimestampMs', 'int64', false, [0,1,2,3], [2,3], [], [], null),
+new ProtocolField('tokenId', 'string', false, [0,1,2,3], [2,3], [], [], null),
+new ProtocolField('hmac', 'bytes', false, [0,1,2,3], [2,3], [], [], null),
+new ProtocolField('throttleTimeMs', 'int32', false, [0,1,2,3], [2,3], [], [], null),
+
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getRequestApiKey(): ?int
+{
+    return 38;
+}
 
-    public function getRequestApiKey(): ?int
-    {
-        return 38;
-    }
+public function getFlexibleVersions(): array
+{
+    return [2,3];
+}
 
-    public function getFlexibleVersions(): array
-    {
-        return [2];
-    }
 
-    public function getErrorCode(): int
-    {
-        return $this->errorCode;
-    }
+    /**
+ * @return int
+ */
+public function getErrorCode(): int
+{
+    return $this->errorCode;
+}
 
-    public function setErrorCode(int $errorCode): self
-    {
-        $this->errorCode = $errorCode;
+/**
+ * @param int $errorCode
+ *
+ * @return self
+ */
+public function setErrorCode(int $errorCode): self
+{
+    $this->errorCode = $errorCode;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return string
+ */
+public function getPrincipalType(): string
+{
+    return $this->principalType;
+}
 
-    public function getPrincipalType(): string
-    {
-        return $this->principalType;
-    }
+/**
+ * @param string $principalType
+ *
+ * @return self
+ */
+public function setPrincipalType(string $principalType): self
+{
+    $this->principalType = $principalType;
 
-    public function setPrincipalType(string $principalType): self
-    {
-        $this->principalType = $principalType;
+    return $this;
+}
+/**
+ * @return string
+ */
+public function getPrincipalName(): string
+{
+    return $this->principalName;
+}
 
-        return $this;
-    }
+/**
+ * @param string $principalName
+ *
+ * @return self
+ */
+public function setPrincipalName(string $principalName): self
+{
+    $this->principalName = $principalName;
 
-    public function getPrincipalName(): string
-    {
-        return $this->principalName;
-    }
+    return $this;
+}
+/**
+ * @return string
+ */
+public function getTokenRequesterPrincipalType(): string
+{
+    return $this->tokenRequesterPrincipalType;
+}
 
-    public function setPrincipalName(string $principalName): self
-    {
-        $this->principalName = $principalName;
+/**
+ * @param string $tokenRequesterPrincipalType
+ *
+ * @return self
+ */
+public function setTokenRequesterPrincipalType(string $tokenRequesterPrincipalType): self
+{
+    $this->tokenRequesterPrincipalType = $tokenRequesterPrincipalType;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return string
+ */
+public function getTokenRequesterPrincipalName(): string
+{
+    return $this->tokenRequesterPrincipalName;
+}
 
-    public function getIssueTimestampMs(): int
-    {
-        return $this->issueTimestampMs;
-    }
+/**
+ * @param string $tokenRequesterPrincipalName
+ *
+ * @return self
+ */
+public function setTokenRequesterPrincipalName(string $tokenRequesterPrincipalName): self
+{
+    $this->tokenRequesterPrincipalName = $tokenRequesterPrincipalName;
 
-    public function setIssueTimestampMs(int $issueTimestampMs): self
-    {
-        $this->issueTimestampMs = $issueTimestampMs;
+    return $this;
+}
+/**
+ * @return int
+ */
+public function getIssueTimestampMs(): int
+{
+    return $this->issueTimestampMs;
+}
 
-        return $this;
-    }
+/**
+ * @param int $issueTimestampMs
+ *
+ * @return self
+ */
+public function setIssueTimestampMs(int $issueTimestampMs): self
+{
+    $this->issueTimestampMs = $issueTimestampMs;
 
-    public function getExpiryTimestampMs(): int
-    {
-        return $this->expiryTimestampMs;
-    }
+    return $this;
+}
+/**
+ * @return int
+ */
+public function getExpiryTimestampMs(): int
+{
+    return $this->expiryTimestampMs;
+}
 
-    public function setExpiryTimestampMs(int $expiryTimestampMs): self
-    {
-        $this->expiryTimestampMs = $expiryTimestampMs;
+/**
+ * @param int $expiryTimestampMs
+ *
+ * @return self
+ */
+public function setExpiryTimestampMs(int $expiryTimestampMs): self
+{
+    $this->expiryTimestampMs = $expiryTimestampMs;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return int
+ */
+public function getMaxTimestampMs(): int
+{
+    return $this->maxTimestampMs;
+}
 
-    public function getMaxTimestampMs(): int
-    {
-        return $this->maxTimestampMs;
-    }
+/**
+ * @param int $maxTimestampMs
+ *
+ * @return self
+ */
+public function setMaxTimestampMs(int $maxTimestampMs): self
+{
+    $this->maxTimestampMs = $maxTimestampMs;
 
-    public function setMaxTimestampMs(int $maxTimestampMs): self
-    {
-        $this->maxTimestampMs = $maxTimestampMs;
+    return $this;
+}
+/**
+ * @return string
+ */
+public function getTokenId(): string
+{
+    return $this->tokenId;
+}
 
-        return $this;
-    }
+/**
+ * @param string $tokenId
+ *
+ * @return self
+ */
+public function setTokenId(string $tokenId): self
+{
+    $this->tokenId = $tokenId;
 
-    public function getTokenId(): string
-    {
-        return $this->tokenId;
-    }
+    return $this;
+}
+/**
+ * @return string
+ */
+public function getHmac(): string
+{
+    return $this->hmac;
+}
 
-    public function setTokenId(string $tokenId): self
-    {
-        $this->tokenId = $tokenId;
+/**
+ * @param string $hmac
+ *
+ * @return self
+ */
+public function setHmac(string $hmac): self
+{
+    $this->hmac = $hmac;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return int
+ */
+public function getThrottleTimeMs(): int
+{
+    return $this->throttleTimeMs;
+}
 
-    public function getHmac(): string
-    {
-        return $this->hmac;
-    }
+/**
+ * @param int $throttleTimeMs
+ *
+ * @return self
+ */
+public function setThrottleTimeMs(int $throttleTimeMs): self
+{
+    $this->throttleTimeMs = $throttleTimeMs;
 
-    public function setHmac(string $hmac): self
-    {
-        $this->hmac = $hmac;
+    return $this;
+}
 
-        return $this;
-    }
-
-    public function getThrottleTimeMs(): int
-    {
-        return $this->throttleTimeMs;
-    }
-
-    public function setThrottleTimeMs(int $throttleTimeMs): self
-    {
-        $this->throttleTimeMs = $throttleTimeMs;
-
-        return $this;
-    }
 }

@@ -10,73 +10,114 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class DeleteTopicsRequest extends AbstractRequest
 {
     /**
-     * The names of the topics to delete.
-     *
-     * @var string[]
-     */
-    protected $topicNames = [];
+ * The name or topic ID of the topic.
+ *
+ * @var DeleteTopicState[]
+ */
+protected $topics = [];
 
-    /**
-     * The length of time in milliseconds to wait for the deletions to complete.
-     *
-     * @var int
-     */
-    protected $timeoutMs = 0;
+/**
+ * The names of the topics to delete.
+ *
+ * @var string[]
+ */
+protected $topicNames = [];
+
+/**
+ * The length of time in milliseconds to wait for the deletions to complete.
+ *
+ * @var int
+ */
+protected $timeoutMs = 0;
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('topicNames', 'string', true, [0, 1, 2, 3, 4], [4], [], [], null),
-                new ProtocolField('timeoutMs', 'int32', false, [0, 1, 2, 3, 4], [4], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
-    }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('topics', DeleteTopicState::class, true, [6], [4,5,6], [], [], null),
+new ProtocolField('topicNames', 'string', true, [0,1,2,3,4,5], [4,5,6], [], [], null),
+new ProtocolField('timeoutMs', 'int32', false, [0,1,2,3,4,5,6], [4,5,6], [], [], null),
 
-    public function getRequestApiKey(): ?int
-    {
-        return 20;
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getRequestApiKey(): ?int
+{
+    return 20;
+}
 
-    public function getMaxSupportedVersion(): int
-    {
-        return 4;
-    }
+public function getMaxSupportedVersion(): int
+{
+    return 6;
+}
 
-    public function getFlexibleVersions(): array
-    {
-        return [4];
-    }
+public function getFlexibleVersions(): array
+{
+    return [4,5,6];
+}
+
 
     /**
-     * @return string[]
-     */
-    public function getTopicNames(): array
-    {
-        return $this->topicNames;
-    }
+ * @return DeleteTopicState[]
+ */
+public function getTopics(): array
+{
+    return $this->topics;
+}
 
-    /**
-     * @param string[] $topicNames
-     */
-    public function setTopicNames(array $topicNames): self
-    {
-        $this->topicNames = $topicNames;
+/**
+ * @param DeleteTopicState[] $topics
+ *
+ * @return self
+ */
+public function setTopics(array $topics): self
+{
+    $this->topics = $topics;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return string[]
+ */
+public function getTopicNames(): array
+{
+    return $this->topicNames;
+}
 
-    public function getTimeoutMs(): int
-    {
-        return $this->timeoutMs;
-    }
+/**
+ * @param string[] $topicNames
+ *
+ * @return self
+ */
+public function setTopicNames(array $topicNames): self
+{
+    $this->topicNames = $topicNames;
 
-    public function setTimeoutMs(int $timeoutMs): self
-    {
-        $this->timeoutMs = $timeoutMs;
+    return $this;
+}
+/**
+ * @return int
+ */
+public function getTimeoutMs(): int
+{
+    return $this->timeoutMs;
+}
 
-        return $this;
-    }
+/**
+ * @param int $timeoutMs
+ *
+ * @return self
+ */
+public function setTimeoutMs(int $timeoutMs): self
+{
+    $this->timeoutMs = $timeoutMs;
+
+    return $this;
+}
+
 }

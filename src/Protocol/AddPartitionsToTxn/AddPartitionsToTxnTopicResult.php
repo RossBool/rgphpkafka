@@ -10,63 +10,77 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class AddPartitionsToTxnTopicResult extends AbstractStruct
 {
     /**
-     * The topic name.
-     *
-     * @var string
-     */
-    protected $name = '';
+ * The topic name.
+ *
+ * @var string
+ */
+protected $name = '';
 
-    /**
-     * The results for each partition.
-     *
-     * @var AddPartitionsToTxnPartitionResult[]
-     */
-    protected $results = [];
+/**
+ * The results for each partition.
+ *
+ * @var AddPartitionsToTxnPartitionResult[]
+ */
+protected $resultsByPartition = [];
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('name', 'string', false, [0, 1], [], [], [], null),
-                new ProtocolField('results', AddPartitionsToTxnPartitionResult::class, true, [0, 1], [], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
-    }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('name', 'string', false, [0,1,2,3,4,5], [3,4,5], [], [], null),
+new ProtocolField('resultsByPartition', AddPartitionsToTxnPartitionResult::class, true, [0,1,2,3,4,5], [3,4,5], [], [], null),
 
-    public function getFlexibleVersions(): array
-    {
-        return [];
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getFlexibleVersions(): array
+{
+    return [3,4,5];
+}
 
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
 
     /**
-     * @return AddPartitionsToTxnPartitionResult[]
-     */
-    public function getResults(): array
-    {
-        return $this->results;
-    }
+ * @return string
+ */
+public function getName(): string
+{
+    return $this->name;
+}
 
-    /**
-     * @param AddPartitionsToTxnPartitionResult[] $results
-     */
-    public function setResults(array $results): self
-    {
-        $this->results = $results;
+/**
+ * @param string $name
+ *
+ * @return self
+ */
+public function setName(string $name): self
+{
+    $this->name = $name;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return AddPartitionsToTxnPartitionResult[]
+ */
+public function getResultsByPartition(): array
+{
+    return $this->resultsByPartition;
+}
+
+/**
+ * @param AddPartitionsToTxnPartitionResult[] $resultsByPartition
+ *
+ * @return self
+ */
+public function setResultsByPartition(array $resultsByPartition): self
+{
+    $this->resultsByPartition = $resultsByPartition;
+
+    return $this;
+}
+
 }

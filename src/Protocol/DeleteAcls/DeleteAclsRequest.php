@@ -10,53 +10,60 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class DeleteAclsRequest extends AbstractRequest
 {
     /**
-     * The filters to use when deleting ACLs.
-     *
-     * @var DeleteAclsFilter[]
-     */
-    protected $filters = [];
+ * The filters to use when deleting ACLs.
+ *
+ * @var DeleteAclsFilter[]
+ */
+protected $filters = [];
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('filters', DeleteAclsFilter::class, true, [0, 1, 2], [2], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
-    }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('filters', DeleteAclsFilter::class, true, [0,1,2,3], [2,3], [], [], null),
 
-    public function getRequestApiKey(): ?int
-    {
-        return 31;
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getRequestApiKey(): ?int
+{
+    return 31;
+}
 
-    public function getMaxSupportedVersion(): int
-    {
-        return 2;
-    }
+public function getMaxSupportedVersion(): int
+{
+    return 3;
+}
 
-    public function getFlexibleVersions(): array
-    {
-        return [2];
-    }
+public function getFlexibleVersions(): array
+{
+    return [2,3];
+}
 
-    /**
-     * @return DeleteAclsFilter[]
-     */
-    public function getFilters(): array
-    {
-        return $this->filters;
-    }
 
     /**
-     * @param DeleteAclsFilter[] $filters
-     */
-    public function setFilters(array $filters): self
-    {
-        $this->filters = $filters;
+ * @return DeleteAclsFilter[]
+ */
+public function getFilters(): array
+{
+    return $this->filters;
+}
 
-        return $this;
-    }
+/**
+ * @param DeleteAclsFilter[] $filters
+ *
+ * @return self
+ */
+public function setFilters(array $filters): self
+{
+    $this->filters = $filters;
+
+    return $this;
+}
+
 }

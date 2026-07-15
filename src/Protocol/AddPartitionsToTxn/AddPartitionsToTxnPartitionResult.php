@@ -10,57 +10,77 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class AddPartitionsToTxnPartitionResult extends AbstractStruct
 {
     /**
-     * The partition indexes.
-     *
-     * @var int
-     */
-    protected $partitionIndex = 0;
+ * The partition indexes.
+ *
+ * @var int
+ */
+protected $partitionIndex = 0;
 
-    /**
-     * The response error code.
-     *
-     * @var int
-     */
-    protected $errorCode = 0;
+/**
+ * The response error code.
+ *
+ * @var int
+ */
+protected $partitionErrorCode = 0;
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('partitionIndex', 'int32', false, [0, 1], [], [], [], null),
-                new ProtocolField('errorCode', 'int16', false, [0, 1], [], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('partitionIndex', 'int32', false, [0,1,2,3,4,5], [3,4,5], [], [], null),
+new ProtocolField('partitionErrorCode', 'int16', false, [0,1,2,3,4,5], [3,4,5], [], [], null),
+
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getFlexibleVersions(): array
+{
+    return [3,4,5];
+}
 
-    public function getFlexibleVersions(): array
-    {
-        return [];
-    }
 
-    public function getPartitionIndex(): int
-    {
-        return $this->partitionIndex;
-    }
+    /**
+ * @return int
+ */
+public function getPartitionIndex(): int
+{
+    return $this->partitionIndex;
+}
 
-    public function setPartitionIndex(int $partitionIndex): self
-    {
-        $this->partitionIndex = $partitionIndex;
+/**
+ * @param int $partitionIndex
+ *
+ * @return self
+ */
+public function setPartitionIndex(int $partitionIndex): self
+{
+    $this->partitionIndex = $partitionIndex;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return int
+ */
+public function getPartitionErrorCode(): int
+{
+    return $this->partitionErrorCode;
+}
 
-    public function getErrorCode(): int
-    {
-        return $this->errorCode;
-    }
+/**
+ * @param int $partitionErrorCode
+ *
+ * @return self
+ */
+public function setPartitionErrorCode(int $partitionErrorCode): self
+{
+    $this->partitionErrorCode = $partitionErrorCode;
 
-    public function setErrorCode(int $errorCode): self
-    {
-        $this->errorCode = $errorCode;
+    return $this;
+}
 
-        return $this;
-    }
 }

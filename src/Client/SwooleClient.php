@@ -95,7 +95,7 @@ class SwooleClient extends SyncClient
         return $correlationId;
     }
 
-    public function recv(?int $correlationId, ?ResponseHeader &$header = null): AbstractResponse
+    public function recv(?int $correlationId, ?ResponseHeader & $header = null): AbstractResponse
     {
         if (!isset($this->waitResponseMaps[$correlationId])) {
             throw new InvalidArgumentException(sprintf('Invalid correlationId %s', $correlationId));

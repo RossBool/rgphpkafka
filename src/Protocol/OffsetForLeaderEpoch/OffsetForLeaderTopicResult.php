@@ -10,63 +10,77 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class OffsetForLeaderTopicResult extends AbstractStruct
 {
     /**
-     * The topic name.
-     *
-     * @var string
-     */
-    protected $name = '';
+ * The topic name.
+ *
+ * @var string
+ */
+protected $topic = '';
 
-    /**
-     * Each partition in the topic we fetched offsets for.
-     *
-     * @var OffsetForLeaderPartitionResult[]
-     */
-    protected $partitions = [];
+/**
+ * Each partition in the topic we fetched offsets for.
+ *
+ * @var EpochEndOffset[]
+ */
+protected $partitions = [];
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('name', 'string', false, [0, 1, 2, 3], [], [], [], null),
-                new ProtocolField('partitions', OffsetForLeaderPartitionResult::class, true, [0, 1, 2, 3], [], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
-    }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('topic', 'string', false, [0,1,2,3,4], [4], [], [], null),
+new ProtocolField('partitions', EpochEndOffset::class, true, [0,1,2,3,4], [4], [], [], null),
 
-    public function getFlexibleVersions(): array
-    {
-        return [];
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getFlexibleVersions(): array
+{
+    return [4];
+}
 
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
 
     /**
-     * @return OffsetForLeaderPartitionResult[]
-     */
-    public function getPartitions(): array
-    {
-        return $this->partitions;
-    }
+ * @return string
+ */
+public function getTopic(): string
+{
+    return $this->topic;
+}
 
-    /**
-     * @param OffsetForLeaderPartitionResult[] $partitions
-     */
-    public function setPartitions(array $partitions): self
-    {
-        $this->partitions = $partitions;
+/**
+ * @param string $topic
+ *
+ * @return self
+ */
+public function setTopic(string $topic): self
+{
+    $this->topic = $topic;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return EpochEndOffset[]
+ */
+public function getPartitions(): array
+{
+    return $this->partitions;
+}
+
+/**
+ * @param EpochEndOffset[] $partitions
+ *
+ * @return self
+ */
+public function setPartitions(array $partitions): self
+{
+    $this->partitions = $partitions;
+
+    return $this;
+}
+
 }

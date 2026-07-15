@@ -161,7 +161,7 @@ class SyncClient implements ClientInterface
         return $correlationId;
     }
 
-    public function recv(?int $correlationId, ?ResponseHeader &$header = null): AbstractResponse
+    public function recv(?int $correlationId, ?ResponseHeader & $header = null): AbstractResponse
     {
         if (!isset($this->waitResponseMaps[$correlationId])) {
             throw new InvalidArgumentException(sprintf('Invalid correlationId %s', $correlationId));
@@ -180,7 +180,7 @@ class SyncClient implements ClientInterface
         return $result;
     }
 
-    public function sendRecv(AbstractRequest $request, ?RequestHeader $requestHeader = null, ?ResponseHeader &$responseHeader = null): AbstractResponse
+    public function sendRecv(AbstractRequest $request, ?RequestHeader $requestHeader = null, ?ResponseHeader & $responseHeader = null): AbstractResponse
     {
         $correlationId = $this->send($request, $requestHeader);
 

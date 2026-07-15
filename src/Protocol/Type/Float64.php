@@ -17,7 +17,7 @@ class Float64 extends AbstractType
         return pack(self::FORAMT, $value);
     }
 
-    public static function unpack(string $value, ?int &$size = null): float
+    public static function unpack(string $value, ?int & $size = null): float
     {
         $size = 8;
 

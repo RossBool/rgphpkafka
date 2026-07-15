@@ -94,7 +94,7 @@ class PartitionMovements
     /**
      * @param ConsumerPair[] $pairs
      */
-    public function isLinked(string $src, string $dst, array $pairs, array &$currentPath): bool
+    public function isLinked(string $src, string $dst, array $pairs, array & $currentPath): bool
     {
         if ($src === $dst) {
             return false;

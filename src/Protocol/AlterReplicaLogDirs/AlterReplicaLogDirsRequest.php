@@ -10,53 +10,60 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class AlterReplicaLogDirsRequest extends AbstractRequest
 {
     /**
-     * The alterations to make for each directory.
-     *
-     * @var AlterReplicaLogDir[]
-     */
-    protected $dirs = [];
+ * The alterations to make for each directory.
+ *
+ * @var AlterReplicaLogDir[]
+ */
+protected $dirs = [];
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('dirs', AlterReplicaLogDir::class, true, [0, 1], [], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
-    }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('dirs', AlterReplicaLogDir::class, true, [0,1,2], [2], [], [], null),
 
-    public function getRequestApiKey(): ?int
-    {
-        return 34;
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getRequestApiKey(): ?int
+{
+    return 34;
+}
 
-    public function getMaxSupportedVersion(): int
-    {
-        return 1;
-    }
+public function getMaxSupportedVersion(): int
+{
+    return 2;
+}
 
-    public function getFlexibleVersions(): array
-    {
-        return [];
-    }
+public function getFlexibleVersions(): array
+{
+    return [2];
+}
 
-    /**
-     * @return AlterReplicaLogDir[]
-     */
-    public function getDirs(): array
-    {
-        return $this->dirs;
-    }
 
     /**
-     * @param AlterReplicaLogDir[] $dirs
-     */
-    public function setDirs(array $dirs): self
-    {
-        $this->dirs = $dirs;
+ * @return AlterReplicaLogDir[]
+ */
+public function getDirs(): array
+{
+    return $this->dirs;
+}
 
-        return $this;
-    }
+/**
+ * @param AlterReplicaLogDir[] $dirs
+ *
+ * @return self
+ */
+public function setDirs(array $dirs): self
+{
+    $this->dirs = $dirs;
+
+    return $this;
+}
+
 }

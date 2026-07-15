@@ -10,197 +10,266 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class DeleteAclsMatchingAcl extends AbstractStruct
 {
     /**
-     * The deletion error code, or 0 if the deletion succeeded.
-     *
-     * @var int
-     */
-    protected $errorCode = 0;
+ * The deletion error code, or 0 if the deletion succeeded.
+ *
+ * @var int
+ */
+protected $errorCode = 0;
 
-    /**
-     * The deletion error message, or null if the deletion succeeded.
-     *
-     * @var string|null
-     */
-    protected $errorMessage = null;
+/**
+ * The deletion error message, or null if the deletion succeeded.
+ *
+ * @var string|null
+ */
+protected $errorMessage = null;
 
-    /**
-     * The ACL resource type.
-     *
-     * @var int
-     */
-    protected $resourceType = 0;
+/**
+ * The ACL resource type.
+ *
+ * @var int
+ */
+protected $resourceType = 0;
 
-    /**
-     * The ACL resource name.
-     *
-     * @var string
-     */
-    protected $resourceName = '';
+/**
+ * The ACL resource name.
+ *
+ * @var string
+ */
+protected $resourceName = '';
 
-    /**
-     * The ACL resource pattern type.
-     *
-     * @var int
-     */
-    protected $patternType = 3;
+/**
+ * The ACL resource pattern type.
+ *
+ * @var int
+ */
+protected $patternType = 3;
 
-    /**
-     * The ACL principal.
-     *
-     * @var string
-     */
-    protected $principal = '';
+/**
+ * The ACL principal.
+ *
+ * @var string
+ */
+protected $principal = '';
 
-    /**
-     * The ACL host.
-     *
-     * @var string
-     */
-    protected $host = '';
+/**
+ * The ACL host.
+ *
+ * @var string
+ */
+protected $host = '';
 
-    /**
-     * The ACL operation.
-     *
-     * @var int
-     */
-    protected $operation = 0;
+/**
+ * The ACL operation.
+ *
+ * @var int
+ */
+protected $operation = 0;
 
-    /**
-     * The ACL permission type.
-     *
-     * @var int
-     */
-    protected $permissionType = 0;
+/**
+ * The ACL permission type.
+ *
+ * @var int
+ */
+protected $permissionType = 0;
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('errorCode', 'int16', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('errorMessage', 'string', false, [0, 1, 2], [2], [0, 1, 2], [], null),
-                new ProtocolField('resourceType', 'int8', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('resourceName', 'string', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('patternType', 'int8', false, [1, 2], [2], [], [], null),
-                new ProtocolField('principal', 'string', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('host', 'string', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('operation', 'int8', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('permissionType', 'int8', false, [0, 1, 2], [2], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('errorCode', 'int16', false, [0,1,2,3], [2,3], [], [], null),
+new ProtocolField('errorMessage', 'string', false, [0,1,2,3], [2,3], [0,1,2,3], [], null),
+new ProtocolField('resourceType', 'int8', false, [0,1,2,3], [2,3], [], [], null),
+new ProtocolField('resourceName', 'string', false, [0,1,2,3], [2,3], [], [], null),
+new ProtocolField('patternType', 'int8', false, [1,2,3], [2,3], [], [], null),
+new ProtocolField('principal', 'string', false, [0,1,2,3], [2,3], [], [], null),
+new ProtocolField('host', 'string', false, [0,1,2,3], [2,3], [], [], null),
+new ProtocolField('operation', 'int8', false, [0,1,2,3], [2,3], [], [], null),
+new ProtocolField('permissionType', 'int8', false, [0,1,2,3], [2,3], [], [], null),
+
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getFlexibleVersions(): array
+{
+    return [2,3];
+}
 
-    public function getFlexibleVersions(): array
-    {
-        return [2];
-    }
 
-    public function getErrorCode(): int
-    {
-        return $this->errorCode;
-    }
+    /**
+ * @return int
+ */
+public function getErrorCode(): int
+{
+    return $this->errorCode;
+}
 
-    public function setErrorCode(int $errorCode): self
-    {
-        $this->errorCode = $errorCode;
+/**
+ * @param int $errorCode
+ *
+ * @return self
+ */
+public function setErrorCode(int $errorCode): self
+{
+    $this->errorCode = $errorCode;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return string|null
+ */
+public function getErrorMessage(): ?string
+{
+    return $this->errorMessage;
+}
 
-    public function getErrorMessage(): ?string
-    {
-        return $this->errorMessage;
-    }
+/**
+ * @param string|null $errorMessage
+ *
+ * @return self
+ */
+public function setErrorMessage(?string $errorMessage): self
+{
+    $this->errorMessage = $errorMessage;
 
-    public function setErrorMessage(?string $errorMessage): self
-    {
-        $this->errorMessage = $errorMessage;
+    return $this;
+}
+/**
+ * @return int
+ */
+public function getResourceType(): int
+{
+    return $this->resourceType;
+}
 
-        return $this;
-    }
+/**
+ * @param int $resourceType
+ *
+ * @return self
+ */
+public function setResourceType(int $resourceType): self
+{
+    $this->resourceType = $resourceType;
 
-    public function getResourceType(): int
-    {
-        return $this->resourceType;
-    }
+    return $this;
+}
+/**
+ * @return string
+ */
+public function getResourceName(): string
+{
+    return $this->resourceName;
+}
 
-    public function setResourceType(int $resourceType): self
-    {
-        $this->resourceType = $resourceType;
+/**
+ * @param string $resourceName
+ *
+ * @return self
+ */
+public function setResourceName(string $resourceName): self
+{
+    $this->resourceName = $resourceName;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return int
+ */
+public function getPatternType(): int
+{
+    return $this->patternType;
+}
 
-    public function getResourceName(): string
-    {
-        return $this->resourceName;
-    }
+/**
+ * @param int $patternType
+ *
+ * @return self
+ */
+public function setPatternType(int $patternType): self
+{
+    $this->patternType = $patternType;
 
-    public function setResourceName(string $resourceName): self
-    {
-        $this->resourceName = $resourceName;
+    return $this;
+}
+/**
+ * @return string
+ */
+public function getPrincipal(): string
+{
+    return $this->principal;
+}
 
-        return $this;
-    }
+/**
+ * @param string $principal
+ *
+ * @return self
+ */
+public function setPrincipal(string $principal): self
+{
+    $this->principal = $principal;
 
-    public function getPatternType(): int
-    {
-        return $this->patternType;
-    }
+    return $this;
+}
+/**
+ * @return string
+ */
+public function getHost(): string
+{
+    return $this->host;
+}
 
-    public function setPatternType(int $patternType): self
-    {
-        $this->patternType = $patternType;
+/**
+ * @param string $host
+ *
+ * @return self
+ */
+public function setHost(string $host): self
+{
+    $this->host = $host;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return int
+ */
+public function getOperation(): int
+{
+    return $this->operation;
+}
 
-    public function getPrincipal(): string
-    {
-        return $this->principal;
-    }
+/**
+ * @param int $operation
+ *
+ * @return self
+ */
+public function setOperation(int $operation): self
+{
+    $this->operation = $operation;
 
-    public function setPrincipal(string $principal): self
-    {
-        $this->principal = $principal;
+    return $this;
+}
+/**
+ * @return int
+ */
+public function getPermissionType(): int
+{
+    return $this->permissionType;
+}
 
-        return $this;
-    }
+/**
+ * @param int $permissionType
+ *
+ * @return self
+ */
+public function setPermissionType(int $permissionType): self
+{
+    $this->permissionType = $permissionType;
 
-    public function getHost(): string
-    {
-        return $this->host;
-    }
+    return $this;
+}
 
-    public function setHost(string $host): self
-    {
-        $this->host = $host;
-
-        return $this;
-    }
-
-    public function getOperation(): int
-    {
-        return $this->operation;
-    }
-
-    public function setOperation(int $operation): self
-    {
-        $this->operation = $operation;
-
-        return $this;
-    }
-
-    public function getPermissionType(): int
-    {
-        return $this->permissionType;
-    }
-
-    public function setPermissionType(int $permissionType): self
-    {
-        $this->permissionType = $permissionType;
-
-        return $this;
-    }
 }

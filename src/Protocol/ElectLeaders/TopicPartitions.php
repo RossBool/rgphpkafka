@@ -10,63 +10,77 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class TopicPartitions extends AbstractStruct
 {
     /**
-     * The name of a topic.
-     *
-     * @var string
-     */
-    protected $topic = '';
+ * The name of a topic.
+ *
+ * @var string
+ */
+protected $topic = '';
 
-    /**
-     * The partitions of this topic whose leader should be elected.
-     *
-     * @var int[]
-     */
-    protected $partitionId = [];
+/**
+ * The partitions of this topic whose leader should be elected.
+ *
+ * @var int[]
+ */
+protected $partitions = [];
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('topic', 'string', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('partitionId', 'int32', true, [0, 1, 2], [2], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
-    }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('topic', 'string', false, [0,1,2], [2], [], [], null),
+new ProtocolField('partitions', 'int32', true, [0,1,2], [2], [], [], null),
 
-    public function getFlexibleVersions(): array
-    {
-        return [2];
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getFlexibleVersions(): array
+{
+    return [2];
+}
 
-    public function getTopic(): string
-    {
-        return $this->topic;
-    }
-
-    public function setTopic(string $topic): self
-    {
-        $this->topic = $topic;
-
-        return $this;
-    }
 
     /**
-     * @return int[]
-     */
-    public function getPartitionId(): array
-    {
-        return $this->partitionId;
-    }
+ * @return string
+ */
+public function getTopic(): string
+{
+    return $this->topic;
+}
 
-    /**
-     * @param int[] $partitionId
-     */
-    public function setPartitionId(array $partitionId): self
-    {
-        $this->partitionId = $partitionId;
+/**
+ * @param string $topic
+ *
+ * @return self
+ */
+public function setTopic(string $topic): self
+{
+    $this->topic = $topic;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return int[]
+ */
+public function getPartitions(): array
+{
+    return $this->partitions;
+}
+
+/**
+ * @param int[] $partitions
+ *
+ * @return self
+ */
+public function setPartitions(array $partitions): self
+{
+    $this->partitions = $partitions;
+
+    return $this;
+}
+
 }

@@ -10,93 +10,141 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class OffsetFetchRequest extends AbstractRequest
 {
     /**
-     * The group to fetch offsets for.
-     *
-     * @var string
-     */
-    protected $groupId = '';
+ * The group to fetch offsets for.
+ *
+ * @var string
+ */
+protected $groupId = '';
 
-    /**
-     * Each topic we would like to fetch offsets for, or null to fetch offsets for all topics.
-     *
-     * @var OffsetFetchRequestTopic[]|null
-     */
-    protected $topics = null;
+/**
+ * Each topic we would like to fetch offsets for, or null to fetch offsets for all topics.
+ *
+ * @var OffsetFetchRequestTopic[]|null
+ */
+protected $topics = null;
 
-    /**
-     * Whether broker should hold on returning unstable offsets but set a retriable error code for the partition.
-     *
-     * @var bool
-     */
-    protected $requireStable = false;
+/**
+ * Each group we would like to fetch offsets for.
+ *
+ * @var OffsetFetchRequestGroup[]
+ */
+protected $groups = [];
+
+/**
+ * Whether broker should hold on returning unstable offsets but set a retriable error code for the partitions.
+ *
+ * @var bool
+ */
+protected $requireStable = false;
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('groupId', 'string', false, [0, 1, 2, 3, 4, 5, 6, 7], [6, 7], [], [], null),
-                new ProtocolField('topics', OffsetFetchRequestTopic::class, true, [0, 1, 2, 3, 4, 5, 6, 7], [6, 7], [2, 3, 4, 5, 6, 7], [], null),
-                new ProtocolField('requireStable', 'bool', false, [7], [6, 7], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
-    }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('groupId', 'string', false, [0,1,2,3,4,5,6,7], [6,7,8,9,10], [], [], null),
+new ProtocolField('topics', OffsetFetchRequestTopic::class, true, [0,1,2,3,4,5,6,7], [6,7,8,9,10], [2,3,4,5,6,7], [], null),
+new ProtocolField('groups', OffsetFetchRequestGroup::class, true, [8,9,10], [6,7,8,9,10], [], [], null),
+new ProtocolField('requireStable', 'bool', false, [7,8,9,10], [6,7,8,9,10], [], [], null),
 
-    public function getRequestApiKey(): ?int
-    {
-        return 9;
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getRequestApiKey(): ?int
+{
+    return 9;
+}
 
-    public function getMaxSupportedVersion(): int
-    {
-        return 7;
-    }
+public function getMaxSupportedVersion(): int
+{
+    return 10;
+}
 
-    public function getFlexibleVersions(): array
-    {
-        return [6, 7];
-    }
+public function getFlexibleVersions(): array
+{
+    return [6,7,8,9,10];
+}
 
-    public function getGroupId(): string
-    {
-        return $this->groupId;
-    }
-
-    public function setGroupId(string $groupId): self
-    {
-        $this->groupId = $groupId;
-
-        return $this;
-    }
 
     /**
-     * @return OffsetFetchRequestTopic[]|null
-     */
-    public function getTopics(): ?array
-    {
-        return $this->topics;
-    }
+ * @return string
+ */
+public function getGroupId(): string
+{
+    return $this->groupId;
+}
 
-    /**
-     * @param OffsetFetchRequestTopic[]|null $topics
-     */
-    public function setTopics(?array $topics): self
-    {
-        $this->topics = $topics;
+/**
+ * @param string $groupId
+ *
+ * @return self
+ */
+public function setGroupId(string $groupId): self
+{
+    $this->groupId = $groupId;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return OffsetFetchRequestTopic[]|null
+ */
+public function getTopics(): ?array
+{
+    return $this->topics;
+}
 
-    public function getRequireStable(): bool
-    {
-        return $this->requireStable;
-    }
+/**
+ * @param OffsetFetchRequestTopic[]|null $topics
+ *
+ * @return self
+ */
+public function setTopics(?array $topics): self
+{
+    $this->topics = $topics;
 
-    public function setRequireStable(bool $requireStable): self
-    {
-        $this->requireStable = $requireStable;
+    return $this;
+}
+/**
+ * @return OffsetFetchRequestGroup[]
+ */
+public function getGroups(): array
+{
+    return $this->groups;
+}
 
-        return $this;
-    }
+/**
+ * @param OffsetFetchRequestGroup[] $groups
+ *
+ * @return self
+ */
+public function setGroups(array $groups): self
+{
+    $this->groups = $groups;
+
+    return $this;
+}
+/**
+ * @return bool
+ */
+public function getRequireStable(): bool
+{
+    return $this->requireStable;
+}
+
+/**
+ * @param bool $requireStable
+ *
+ * @return self
+ */
+public function setRequireStable(bool $requireStable): self
+{
+    $this->requireStable = $requireStable;
+
+    return $this;
+}
+
 }

@@ -27,7 +27,7 @@ class UInt32 extends AbstractType
         return pack(self::FORAMT, $value);
     }
 
-    public static function unpack(string $value, ?int &$size = null): int
+    public static function unpack(string $value, ?int & $size = null): int
     {
         $size = 4;
 

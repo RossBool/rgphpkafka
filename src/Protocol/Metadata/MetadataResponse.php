@@ -10,154 +10,217 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class MetadataResponse extends AbstractResponse
 {
     /**
-     * The duration in milliseconds for which the request was throttled due to a quota violation, or zero if the request did not violate any quota.
-     *
-     * @var int
-     */
-    protected $throttleTimeMs = 0;
+ * The duration in milliseconds for which the request was throttled due to a quota violation, or zero if the request did not violate any quota.
+ *
+ * @var int
+ */
+protected $throttleTimeMs = 0;
 
-    /**
-     * Each broker in the response.
-     *
-     * @var MetadataResponseBroker[]
-     */
-    protected $brokers = [];
+/**
+ * A list of brokers present in the cluster.
+ *
+ * @var MetadataResponseBroker[]
+ */
+protected $brokers = [];
 
-    /**
-     * The cluster ID that responding broker belongs to.
-     *
-     * @var string|null
-     */
-    protected $clusterId = null;
+/**
+ * The cluster ID that responding broker belongs to.
+ *
+ * @var string|null
+ */
+protected $clusterId = null;
 
-    /**
-     * The ID of the controller broker.
-     *
-     * @var int
-     */
-    protected $controllerId = -1;
+/**
+ * The ID of the controller broker.
+ *
+ * @var int
+ */
+protected $controllerId = -1;
 
-    /**
-     * Each topic in the response.
-     *
-     * @var MetadataResponseTopic[]
-     */
-    protected $topics = [];
+/**
+ * Each topic in the response.
+ *
+ * @var MetadataResponseTopic[]
+ */
+protected $topics = [];
 
-    /**
-     * 32-bit bitfield to represent authorized operations for this cluster.
-     *
-     * @var int
-     */
-    protected $clusterAuthorizedOperations = -2147483648;
+/**
+ * 32-bit bitfield to represent authorized operations for this cluster.
+ *
+ * @var int
+ */
+protected $clusterAuthorizedOperations = -2147483648;
+
+/**
+ * The top-level error code, or 0 if there was no error.
+ *
+ * @var int
+ */
+protected $errorCode = 0;
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('throttleTimeMs', 'int32', false, [3, 4, 5, 6, 7, 8, 9], [9], [], [], null),
-                new ProtocolField('brokers', MetadataResponseBroker::class, true, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [9], [], [], null),
-                new ProtocolField('clusterId', 'string', false, [2, 3, 4, 5, 6, 7, 8, 9], [9], [2, 3, 4, 5, 6, 7, 8, 9], [], null),
-                new ProtocolField('controllerId', 'int32', false, [1, 2, 3, 4, 5, 6, 7, 8, 9], [9], [], [], null),
-                new ProtocolField('topics', MetadataResponseTopic::class, true, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], [9], [], [], null),
-                new ProtocolField('clusterAuthorizedOperations', 'int32', false, [8, 9], [9], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
-    }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('throttleTimeMs', 'int32', false, [3,4,5,6,7,8,9,10,11,12,13], [9,10,11,12,13], [], [], null),
+new ProtocolField('brokers', MetadataResponseBroker::class, true, [0,1,2,3,4,5,6,7,8,9,10,11,12,13], [9,10,11,12,13], [], [], null),
+new ProtocolField('clusterId', 'string', false, [2,3,4,5,6,7,8,9,10,11,12,13], [9,10,11,12,13], [2,3,4,5,6,7,8,9,10,11,12,13], [], null),
+new ProtocolField('controllerId', 'int32', false, [1,2,3,4,5,6,7,8,9,10,11,12,13], [9,10,11,12,13], [], [], null),
+new ProtocolField('topics', MetadataResponseTopic::class, true, [0,1,2,3,4,5,6,7,8,9,10,11,12,13], [9,10,11,12,13], [], [], null),
+new ProtocolField('clusterAuthorizedOperations', 'int32', false, [8,9,10], [9,10,11,12,13], [], [], null),
+new ProtocolField('errorCode', 'int16', false, [13], [9,10,11,12,13], [], [], null),
 
-    public function getRequestApiKey(): ?int
-    {
-        return 3;
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getRequestApiKey(): ?int
+{
+    return 3;
+}
 
-    public function getFlexibleVersions(): array
-    {
-        return [9];
-    }
+public function getFlexibleVersions(): array
+{
+    return [9,10,11,12,13];
+}
 
-    public function getThrottleTimeMs(): int
-    {
-        return $this->throttleTimeMs;
-    }
-
-    public function setThrottleTimeMs(int $throttleTimeMs): self
-    {
-        $this->throttleTimeMs = $throttleTimeMs;
-
-        return $this;
-    }
 
     /**
-     * @return MetadataResponseBroker[]
-     */
-    public function getBrokers(): array
-    {
-        return $this->brokers;
-    }
+ * @return int
+ */
+public function getThrottleTimeMs(): int
+{
+    return $this->throttleTimeMs;
+}
 
-    /**
-     * @param MetadataResponseBroker[] $brokers
-     */
-    public function setBrokers(array $brokers): self
-    {
-        $this->brokers = $brokers;
+/**
+ * @param int $throttleTimeMs
+ *
+ * @return self
+ */
+public function setThrottleTimeMs(int $throttleTimeMs): self
+{
+    $this->throttleTimeMs = $throttleTimeMs;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return MetadataResponseBroker[]
+ */
+public function getBrokers(): array
+{
+    return $this->brokers;
+}
 
-    public function getClusterId(): ?string
-    {
-        return $this->clusterId;
-    }
+/**
+ * @param MetadataResponseBroker[] $brokers
+ *
+ * @return self
+ */
+public function setBrokers(array $brokers): self
+{
+    $this->brokers = $brokers;
 
-    public function setClusterId(?string $clusterId): self
-    {
-        $this->clusterId = $clusterId;
+    return $this;
+}
+/**
+ * @return string|null
+ */
+public function getClusterId(): ?string
+{
+    return $this->clusterId;
+}
 
-        return $this;
-    }
+/**
+ * @param string|null $clusterId
+ *
+ * @return self
+ */
+public function setClusterId(?string $clusterId): self
+{
+    $this->clusterId = $clusterId;
 
-    public function getControllerId(): int
-    {
-        return $this->controllerId;
-    }
+    return $this;
+}
+/**
+ * @return int
+ */
+public function getControllerId(): int
+{
+    return $this->controllerId;
+}
 
-    public function setControllerId(int $controllerId): self
-    {
-        $this->controllerId = $controllerId;
+/**
+ * @param int $controllerId
+ *
+ * @return self
+ */
+public function setControllerId(int $controllerId): self
+{
+    $this->controllerId = $controllerId;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return MetadataResponseTopic[]
+ */
+public function getTopics(): array
+{
+    return $this->topics;
+}
 
-    /**
-     * @return MetadataResponseTopic[]
-     */
-    public function getTopics(): array
-    {
-        return $this->topics;
-    }
+/**
+ * @param MetadataResponseTopic[] $topics
+ *
+ * @return self
+ */
+public function setTopics(array $topics): self
+{
+    $this->topics = $topics;
 
-    /**
-     * @param MetadataResponseTopic[] $topics
-     */
-    public function setTopics(array $topics): self
-    {
-        $this->topics = $topics;
+    return $this;
+}
+/**
+ * @return int
+ */
+public function getClusterAuthorizedOperations(): int
+{
+    return $this->clusterAuthorizedOperations;
+}
 
-        return $this;
-    }
+/**
+ * @param int $clusterAuthorizedOperations
+ *
+ * @return self
+ */
+public function setClusterAuthorizedOperations(int $clusterAuthorizedOperations): self
+{
+    $this->clusterAuthorizedOperations = $clusterAuthorizedOperations;
 
-    public function getClusterAuthorizedOperations(): int
-    {
-        return $this->clusterAuthorizedOperations;
-    }
+    return $this;
+}
+/**
+ * @return int
+ */
+public function getErrorCode(): int
+{
+    return $this->errorCode;
+}
 
-    public function setClusterAuthorizedOperations(int $clusterAuthorizedOperations): self
-    {
-        $this->clusterAuthorizedOperations = $clusterAuthorizedOperations;
+/**
+ * @param int $errorCode
+ *
+ * @return self
+ */
+public function setErrorCode(int $errorCode): self
+{
+    $this->errorCode = $errorCode;
 
-        return $this;
-    }
+    return $this;
+}
+
 }

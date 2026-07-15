@@ -10,57 +10,77 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class DescribeDelegationTokenOwner extends AbstractStruct
 {
     /**
-     * The owner principal type.
-     *
-     * @var string
-     */
-    protected $principalType = '';
+ * The owner principal type.
+ *
+ * @var string
+ */
+protected $principalType = '';
 
-    /**
-     * The owner principal name.
-     *
-     * @var string
-     */
-    protected $principalName = '';
+/**
+ * The owner principal name.
+ *
+ * @var string
+ */
+protected $principalName = '';
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('principalType', 'string', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('principalName', 'string', false, [0, 1, 2], [2], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('principalType', 'string', false, [0,1,2,3], [2,3], [], [], null),
+new ProtocolField('principalName', 'string', false, [0,1,2,3], [2,3], [], [], null),
+
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getFlexibleVersions(): array
+{
+    return [2,3];
+}
 
-    public function getFlexibleVersions(): array
-    {
-        return [2];
-    }
 
-    public function getPrincipalType(): string
-    {
-        return $this->principalType;
-    }
+    /**
+ * @return string
+ */
+public function getPrincipalType(): string
+{
+    return $this->principalType;
+}
 
-    public function setPrincipalType(string $principalType): self
-    {
-        $this->principalType = $principalType;
+/**
+ * @param string $principalType
+ *
+ * @return self
+ */
+public function setPrincipalType(string $principalType): self
+{
+    $this->principalType = $principalType;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return string
+ */
+public function getPrincipalName(): string
+{
+    return $this->principalName;
+}
 
-    public function getPrincipalName(): string
-    {
-        return $this->principalName;
-    }
+/**
+ * @param string $principalName
+ *
+ * @return self
+ */
+public function setPrincipalName(string $principalName): self
+{
+    $this->principalName = $principalName;
 
-    public function setPrincipalName(string $principalName): self
-    {
-        $this->principalName = $principalName;
+    return $this;
+}
 
-        return $this;
-    }
 }

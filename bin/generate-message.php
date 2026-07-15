@@ -11,19 +11,29 @@ define('KAFKA_PROTOCOL_DEST_PATH', dirname(__DIR__) . '/src/Protocol');
 (function () {
     // messages
     $generators = [];
+    $failures = [];
     foreach (new FilesystemIterator(KAFKA_PROTOCOL_MESSAGE_PATH, FilesystemIterator::SKIP_DOTS) as $jsonFile) {
         if ('json' !== $jsonFile->getExtension()) {
             continue;
         }
         $pathname = $jsonFile->getPathname();
-        var_dump($pathname);
         $data = json5_decode(file_get_contents($pathname));
-        $generator = new MessageGenerator($data);
-        $generators[$generator->getApiKey()] = $generator;
-        $generator->generate();
+        try {
+            $generator = new MessageGenerator($data);
+            $generators[$generator->getApiKey()] = $generator;
+            $generator->generate();
+        } catch (\Throwable $e) {
+            $failures[] = $jsonFile->getFilename() . ': ' . $e->getMessage();
+        }
     }
     // AbstractApiKeys
     generateAbstractApiKeys($generators);
+    if ($failures) {
+        echo "Skipped " . count($failures) . " files:\n";
+        foreach ($failures as $f) {
+            echo "  - $f\n";
+        }
+    }
     // Format
     echo 'php-cs-fixer:', \PHP_EOL;
     $cmd = 'php-cs-fixer fix "' . KAFKA_PROTOCOL_DEST_PATH . '"';

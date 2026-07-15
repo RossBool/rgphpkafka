@@ -10,57 +10,77 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class BatchIndexAndErrorMessage extends AbstractStruct
 {
     /**
-     * The batch index of the record that cause the batch to be dropped.
-     *
-     * @var int
-     */
-    protected $batchIndex = 0;
+ * The batch index of the record that caused the batch to be dropped.
+ *
+ * @var int
+ */
+protected $batchIndex = 0;
 
-    /**
-     * The error message of the record that caused the batch to be dropped.
-     *
-     * @var string|null
-     */
-    protected $batchIndexErrorMessage = null;
+/**
+ * The error message of the record that caused the batch to be dropped.
+ *
+ * @var string|null
+ */
+protected $batchIndexErrorMessage = null;
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('batchIndex', 'int32', false, [8], [], [], [], null),
-                new ProtocolField('batchIndexErrorMessage', 'string', false, [8], [], [8], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('batchIndex', 'int32', false, [8,9,10,11,12,13], [9,10,11,12,13], [], [], null),
+new ProtocolField('batchIndexErrorMessage', 'string', false, [8,9,10,11,12,13], [9,10,11,12,13], [8,9,10,11,12,13], [], null),
+
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getFlexibleVersions(): array
+{
+    return [9,10,11,12,13];
+}
 
-    public function getFlexibleVersions(): array
-    {
-        return [];
-    }
 
-    public function getBatchIndex(): int
-    {
-        return $this->batchIndex;
-    }
+    /**
+ * @return int
+ */
+public function getBatchIndex(): int
+{
+    return $this->batchIndex;
+}
 
-    public function setBatchIndex(int $batchIndex): self
-    {
-        $this->batchIndex = $batchIndex;
+/**
+ * @param int $batchIndex
+ *
+ * @return self
+ */
+public function setBatchIndex(int $batchIndex): self
+{
+    $this->batchIndex = $batchIndex;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return string|null
+ */
+public function getBatchIndexErrorMessage(): ?string
+{
+    return $this->batchIndexErrorMessage;
+}
 
-    public function getBatchIndexErrorMessage(): ?string
-    {
-        return $this->batchIndexErrorMessage;
-    }
+/**
+ * @param string|null $batchIndexErrorMessage
+ *
+ * @return self
+ */
+public function setBatchIndexErrorMessage(?string $batchIndexErrorMessage): self
+{
+    $this->batchIndexErrorMessage = $batchIndexErrorMessage;
 
-    public function setBatchIndexErrorMessage(?string $batchIndexErrorMessage): self
-    {
-        $this->batchIndexErrorMessage = $batchIndexErrorMessage;
+    return $this;
+}
 
-        return $this;
-    }
 }

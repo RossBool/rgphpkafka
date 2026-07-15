@@ -10,97 +10,131 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class AclDescription extends AbstractStruct
 {
     /**
-     * The ACL principal.
-     *
-     * @var string
-     */
-    protected $principal = '';
+ * The ACL principal.
+ *
+ * @var string
+ */
+protected $principal = '';
 
-    /**
-     * The ACL host.
-     *
-     * @var string
-     */
-    protected $host = '';
+/**
+ * The ACL host.
+ *
+ * @var string
+ */
+protected $host = '';
 
-    /**
-     * The ACL operation.
-     *
-     * @var int
-     */
-    protected $operation = 0;
+/**
+ * The ACL operation.
+ *
+ * @var int
+ */
+protected $operation = 0;
 
-    /**
-     * The ACL permission type.
-     *
-     * @var int
-     */
-    protected $permissionType = 0;
+/**
+ * The ACL permission type.
+ *
+ * @var int
+ */
+protected $permissionType = 0;
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('principal', 'string', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('host', 'string', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('operation', 'int8', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('permissionType', 'int8', false, [0, 1, 2], [2], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('principal', 'string', false, [0,1,2,3], [2,3], [], [], null),
+new ProtocolField('host', 'string', false, [0,1,2,3], [2,3], [], [], null),
+new ProtocolField('operation', 'int8', false, [0,1,2,3], [2,3], [], [], null),
+new ProtocolField('permissionType', 'int8', false, [0,1,2,3], [2,3], [], [], null),
+
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getFlexibleVersions(): array
+{
+    return [2,3];
+}
 
-    public function getFlexibleVersions(): array
-    {
-        return [2];
-    }
 
-    public function getPrincipal(): string
-    {
-        return $this->principal;
-    }
+    /**
+ * @return string
+ */
+public function getPrincipal(): string
+{
+    return $this->principal;
+}
 
-    public function setPrincipal(string $principal): self
-    {
-        $this->principal = $principal;
+/**
+ * @param string $principal
+ *
+ * @return self
+ */
+public function setPrincipal(string $principal): self
+{
+    $this->principal = $principal;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return string
+ */
+public function getHost(): string
+{
+    return $this->host;
+}
 
-    public function getHost(): string
-    {
-        return $this->host;
-    }
+/**
+ * @param string $host
+ *
+ * @return self
+ */
+public function setHost(string $host): self
+{
+    $this->host = $host;
 
-    public function setHost(string $host): self
-    {
-        $this->host = $host;
+    return $this;
+}
+/**
+ * @return int
+ */
+public function getOperation(): int
+{
+    return $this->operation;
+}
 
-        return $this;
-    }
+/**
+ * @param int $operation
+ *
+ * @return self
+ */
+public function setOperation(int $operation): self
+{
+    $this->operation = $operation;
 
-    public function getOperation(): int
-    {
-        return $this->operation;
-    }
+    return $this;
+}
+/**
+ * @return int
+ */
+public function getPermissionType(): int
+{
+    return $this->permissionType;
+}
 
-    public function setOperation(int $operation): self
-    {
-        $this->operation = $operation;
+/**
+ * @param int $permissionType
+ *
+ * @return self
+ */
+public function setPermissionType(int $permissionType): self
+{
+    $this->permissionType = $permissionType;
 
-        return $this;
-    }
+    return $this;
+}
 
-    public function getPermissionType(): int
-    {
-        return $this->permissionType;
-    }
-
-    public function setPermissionType(int $permissionType): self
-    {
-        $this->permissionType = $permissionType;
-
-        return $this;
-    }
 }

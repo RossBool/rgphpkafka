@@ -10,68 +10,82 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class CreateTopicsResponse extends AbstractResponse
 {
     /**
-     * The duration in milliseconds for which the request was throttled due to a quota violation, or zero if the request did not violate any quota.
-     *
-     * @var int
-     */
-    protected $throttleTimeMs = 0;
+ * The duration in milliseconds for which the request was throttled due to a quota violation, or zero if the request did not violate any quota.
+ *
+ * @var int
+ */
+protected $throttleTimeMs = 0;
 
-    /**
-     * Results for each topic we tried to create.
-     *
-     * @var CreatableTopicResult[]
-     */
-    protected $topics = [];
+/**
+ * Results for each topic we tried to create.
+ *
+ * @var CreatableTopicResult[]
+ */
+protected $topics = [];
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('throttleTimeMs', 'int32', false, [2, 3, 4, 5], [5], [], [], null),
-                new ProtocolField('topics', CreatableTopicResult::class, true, [0, 1, 2, 3, 4, 5], [5], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
-    }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('throttleTimeMs', 'int32', false, [2,3,4,5,6,7], [5,6,7], [], [], null),
+new ProtocolField('topics', CreatableTopicResult::class, true, [0,1,2,3,4,5,6,7], [5,6,7], [], [], null),
 
-    public function getRequestApiKey(): ?int
-    {
-        return 19;
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getRequestApiKey(): ?int
+{
+    return 19;
+}
 
-    public function getFlexibleVersions(): array
-    {
-        return [5];
-    }
+public function getFlexibleVersions(): array
+{
+    return [5,6,7];
+}
 
-    public function getThrottleTimeMs(): int
-    {
-        return $this->throttleTimeMs;
-    }
-
-    public function setThrottleTimeMs(int $throttleTimeMs): self
-    {
-        $this->throttleTimeMs = $throttleTimeMs;
-
-        return $this;
-    }
 
     /**
-     * @return CreatableTopicResult[]
-     */
-    public function getTopics(): array
-    {
-        return $this->topics;
-    }
+ * @return int
+ */
+public function getThrottleTimeMs(): int
+{
+    return $this->throttleTimeMs;
+}
 
-    /**
-     * @param CreatableTopicResult[] $topics
-     */
-    public function setTopics(array $topics): self
-    {
-        $this->topics = $topics;
+/**
+ * @param int $throttleTimeMs
+ *
+ * @return self
+ */
+public function setThrottleTimeMs(int $throttleTimeMs): self
+{
+    $this->throttleTimeMs = $throttleTimeMs;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return CreatableTopicResult[]
+ */
+public function getTopics(): array
+{
+    return $this->topics;
+}
+
+/**
+ * @param CreatableTopicResult[] $topics
+ *
+ * @return self
+ */
+public function setTopics(array $topics): self
+{
+    $this->topics = $topics;
+
+    return $this;
+}
+
 }

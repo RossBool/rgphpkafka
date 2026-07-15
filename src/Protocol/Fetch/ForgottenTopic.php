@@ -10,63 +10,104 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class ForgottenTopic extends AbstractStruct
 {
     /**
-     * The partition name.
-     *
-     * @var string
-     */
-    protected $name = '';
+ * The topic name.
+ *
+ * @var string
+ */
+protected $topic = '';
 
-    /**
-     * The partitions indexes to forget.
-     *
-     * @var int[]
-     */
-    protected $forgottenPartitionIndexes = [];
+/**
+ * The unique topic ID.
+ *
+ * @var string
+ */
+protected $topicId = '';
+
+/**
+ * The partitions indexes to forget.
+ *
+ * @var int[]
+ */
+protected $partitions = [];
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('name', 'string', false, [7, 8, 9, 10, 11], [], [], [], null),
-                new ProtocolField('forgottenPartitionIndexes', 'int32', true, [7, 8, 9, 10, 11], [], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
-    }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('topic', 'string', false, [7,8,9,10,11,12], [12,13,14,15,16,17,18], [], [], null),
+new ProtocolField('topicId', 'uuid', false, [13,14,15,16,17,18], [12,13,14,15,16,17,18], [], [], null),
+new ProtocolField('partitions', 'int32', true, [7,8,9,10,11,12,13,14,15,16,17,18], [12,13,14,15,16,17,18], [], [], null),
 
-    public function getFlexibleVersions(): array
-    {
-        return [];
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getFlexibleVersions(): array
+{
+    return [12,13,14,15,16,17,18];
+}
 
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
 
     /**
-     * @return int[]
-     */
-    public function getForgottenPartitionIndexes(): array
-    {
-        return $this->forgottenPartitionIndexes;
-    }
+ * @return string
+ */
+public function getTopic(): string
+{
+    return $this->topic;
+}
 
-    /**
-     * @param int[] $forgottenPartitionIndexes
-     */
-    public function setForgottenPartitionIndexes(array $forgottenPartitionIndexes): self
-    {
-        $this->forgottenPartitionIndexes = $forgottenPartitionIndexes;
+/**
+ * @param string $topic
+ *
+ * @return self
+ */
+public function setTopic(string $topic): self
+{
+    $this->topic = $topic;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return string
+ */
+public function getTopicId(): string
+{
+    return $this->topicId;
+}
+
+/**
+ * @param string $topicId
+ *
+ * @return self
+ */
+public function setTopicId(string $topicId): self
+{
+    $this->topicId = $topicId;
+
+    return $this;
+}
+/**
+ * @return int[]
+ */
+public function getPartitions(): array
+{
+    return $this->partitions;
+}
+
+/**
+ * @param int[] $partitions
+ *
+ * @return self
+ */
+public function setPartitions(array $partitions): self
+{
+    $this->partitions = $partitions;
+
+    return $this;
+}
+
 }

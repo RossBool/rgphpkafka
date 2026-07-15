@@ -15,7 +15,7 @@ class String32 extends AbstractType
         return Int32::pack(\strlen($value)) . $value;
     }
 
-    public static function unpack(string $value, ?int &$size = null): string
+    public static function unpack(string $value, ?int & $size = null): string
     {
         $length = Int32::unpack(substr($value, 0, 4), $size);
         $result = substr($value, $size, $length);

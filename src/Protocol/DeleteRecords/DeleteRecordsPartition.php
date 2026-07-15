@@ -10,57 +10,77 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class DeleteRecordsPartition extends AbstractStruct
 {
     /**
-     * The partition index.
-     *
-     * @var int
-     */
-    protected $partitionIndex = 0;
+ * The partition index.
+ *
+ * @var int
+ */
+protected $partitionIndex = 0;
 
-    /**
-     * The deletion offset.
-     *
-     * @var int
-     */
-    protected $offset = 0;
+/**
+ * The deletion offset. -1 means that records should be truncated to the high watermark.
+ *
+ * @var int
+ */
+protected $offset = 0;
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('partitionIndex', 'int32', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('offset', 'int64', false, [0, 1, 2], [2], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('partitionIndex', 'int32', false, [0,1,2], [2], [], [], null),
+new ProtocolField('offset', 'int64', false, [0,1,2], [2], [], [], null),
+
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getFlexibleVersions(): array
+{
+    return [2];
+}
 
-    public function getFlexibleVersions(): array
-    {
-        return [2];
-    }
 
-    public function getPartitionIndex(): int
-    {
-        return $this->partitionIndex;
-    }
+    /**
+ * @return int
+ */
+public function getPartitionIndex(): int
+{
+    return $this->partitionIndex;
+}
 
-    public function setPartitionIndex(int $partitionIndex): self
-    {
-        $this->partitionIndex = $partitionIndex;
+/**
+ * @param int $partitionIndex
+ *
+ * @return self
+ */
+public function setPartitionIndex(int $partitionIndex): self
+{
+    $this->partitionIndex = $partitionIndex;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return int
+ */
+public function getOffset(): int
+{
+    return $this->offset;
+}
 
-    public function getOffset(): int
-    {
-        return $this->offset;
-    }
+/**
+ * @param int $offset
+ *
+ * @return self
+ */
+public function setOffset(int $offset): self
+{
+    $this->offset = $offset;
 
-    public function setOffset(int $offset): self
-    {
-        $this->offset = $offset;
+    return $this;
+}
 
-        return $this;
-    }
 }

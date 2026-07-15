@@ -38,7 +38,7 @@ class MessageGenerator extends AbstractGenerator
         $this->apiName = $this->parseApiName($data);
         $this->dirName = \dirname(__DIR__) . '/Protocol/' . $this->apiName;
         $this->validVersions = $this->parseVersionsToArray($data->validVersions);
-        $this->maxSupportVersion = $maxSupportVersion = max(0, ...$this->validVersions);
+        $this->maxSupportVersion = $maxSupportVersion = empty($this->validVersions) ? 0 : max(0, ...$this->validVersions);
         $this->flexibleVersions = isset($data->flexibleVersions) ? $this->parseVersionsToArray($data->flexibleVersions, $maxSupportVersion) : [];
         $this->apiKey = $this->data->apiKey ?? -1;
     }
@@ -187,6 +187,30 @@ CODE;
         $generator = new SubStructGenerator($this, $field);
         $generator->generate();
         $this->generatedTypes[$type] = true;
+    }
+
+    /**
+     * Try to find $type in the message's commonStructs and generate it.
+     * Returns true if found and generated (or already generated).
+     * This handles out-of-order commonStruct references.
+     */
+    public function tryGenerateCommonStruct(string $type): bool
+    {
+        if ($this->hasGenerated($type)) {
+            return true;
+        }
+        if (!isset($this->data->commonStructs)) {
+            return false;
+        }
+        foreach ($this->data->commonStructs as $struct) {
+            if ($struct->name === $type) {
+                $this->generateStruct($type, $struct);
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     protected function parseApiName(\stdClass $data): string

@@ -10,63 +10,77 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class AddPartitionsToTxnTopic extends AbstractStruct
 {
     /**
-     * The name of the topic.
-     *
-     * @var string
-     */
-    protected $name = '';
+ * The name of the topic.
+ *
+ * @var string
+ */
+protected $name = '';
 
-    /**
-     * The partition indexes to add to the transaction.
-     *
-     * @var int[]
-     */
-    protected $partitions = [];
+/**
+ * The partition indexes to add to the transaction.
+ *
+ * @var int[]
+ */
+protected $partitions = [];
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('name', 'string', false, [0, 1], [], [], [], null),
-                new ProtocolField('partitions', 'int32', true, [0, 1], [], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
-    }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('name', 'string', false, [0,1,2,3,4,5], [3,4,5], [], [], null),
+new ProtocolField('partitions', 'int32', true, [0,1,2,3,4,5], [3,4,5], [], [], null),
 
-    public function getFlexibleVersions(): array
-    {
-        return [];
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getFlexibleVersions(): array
+{
+    return [3,4,5];
+}
 
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
 
     /**
-     * @return int[]
-     */
-    public function getPartitions(): array
-    {
-        return $this->partitions;
-    }
+ * @return string
+ */
+public function getName(): string
+{
+    return $this->name;
+}
 
-    /**
-     * @param int[] $partitions
-     */
-    public function setPartitions(array $partitions): self
-    {
-        $this->partitions = $partitions;
+/**
+ * @param string $name
+ *
+ * @return self
+ */
+public function setName(string $name): self
+{
+    $this->name = $name;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return int[]
+ */
+public function getPartitions(): array
+{
+    return $this->partitions;
+}
+
+/**
+ * @param int[] $partitions
+ *
+ * @return self
+ */
+public function setPartitions(array $partitions): self
+{
+    $this->partitions = $partitions;
+
+    return $this;
+}
+
 }

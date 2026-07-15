@@ -31,7 +31,7 @@ class RecordHeader extends AbstractStruct
         return $result;
     }
 
-    public function unpack(string $data, ?int &$size = null, int $apiVersion = 0): void
+    public function unpack(string $data, ?int & $size = null, int $apiVersion = 0): void
     {
         $size = 0;
 

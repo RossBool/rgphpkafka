@@ -10,113 +10,168 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class AddPartitionsToTxnRequest extends AbstractRequest
 {
     /**
-     * The transactional id corresponding to the transaction.
-     *
-     * @var string
-     */
-    protected $transactionalId = '';
+ * List of transactions to add partitions to.
+ *
+ * @var AddPartitionsToTxnTransaction[]
+ */
+protected $transactions = [];
 
-    /**
-     * Current producer id in use by the transactional id.
-     *
-     * @var int
-     */
-    protected $producerId = 0;
+/**
+ * The transactional id corresponding to the transaction.
+ *
+ * @var string
+ */
+protected $v3AndBelowTransactionalId = '';
 
-    /**
-     * Current epoch associated with the producer id.
-     *
-     * @var int
-     */
-    protected $producerEpoch = 0;
+/**
+ * Current producer id in use by the transactional id.
+ *
+ * @var int
+ */
+protected $v3AndBelowProducerId = 0;
 
-    /**
-     * The partitions to add to the transaction.
-     *
-     * @var AddPartitionsToTxnTopic[]
-     */
-    protected $topics = [];
+/**
+ * Current epoch associated with the producer id.
+ *
+ * @var int
+ */
+protected $v3AndBelowProducerEpoch = 0;
+
+/**
+ * The partitions to add to the transaction.
+ *
+ * @var AddPartitionsToTxnTopic[]
+ */
+protected $v3AndBelowTopics = [];
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('transactionalId', 'string', false, [0, 1], [], [], [], null),
-                new ProtocolField('producerId', 'int64', false, [0, 1], [], [], [], null),
-                new ProtocolField('producerEpoch', 'int16', false, [0, 1], [], [], [], null),
-                new ProtocolField('topics', AddPartitionsToTxnTopic::class, true, [0, 1], [], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('transactions', AddPartitionsToTxnTransaction::class, true, [4,5], [3,4,5], [], [], null),
+new ProtocolField('v3AndBelowTransactionalId', 'string', false, [0,1,2,3], [3,4,5], [], [], null),
+new ProtocolField('v3AndBelowProducerId', 'int64', false, [0,1,2,3], [3,4,5], [], [], null),
+new ProtocolField('v3AndBelowProducerEpoch', 'int16', false, [0,1,2,3], [3,4,5], [], [], null),
+new ProtocolField('v3AndBelowTopics', AddPartitionsToTxnTopic::class, true, [0,1,2,3], [3,4,5], [], [], null),
+
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getRequestApiKey(): ?int
+{
+    return 24;
+}
 
-    public function getRequestApiKey(): ?int
-    {
-        return 24;
-    }
+public function getMaxSupportedVersion(): int
+{
+    return 5;
+}
 
-    public function getMaxSupportedVersion(): int
-    {
-        return 1;
-    }
+public function getFlexibleVersions(): array
+{
+    return [3,4,5];
+}
 
-    public function getFlexibleVersions(): array
-    {
-        return [];
-    }
-
-    public function getTransactionalId(): string
-    {
-        return $this->transactionalId;
-    }
-
-    public function setTransactionalId(string $transactionalId): self
-    {
-        $this->transactionalId = $transactionalId;
-
-        return $this;
-    }
-
-    public function getProducerId(): int
-    {
-        return $this->producerId;
-    }
-
-    public function setProducerId(int $producerId): self
-    {
-        $this->producerId = $producerId;
-
-        return $this;
-    }
-
-    public function getProducerEpoch(): int
-    {
-        return $this->producerEpoch;
-    }
-
-    public function setProducerEpoch(int $producerEpoch): self
-    {
-        $this->producerEpoch = $producerEpoch;
-
-        return $this;
-    }
 
     /**
-     * @return AddPartitionsToTxnTopic[]
-     */
-    public function getTopics(): array
-    {
-        return $this->topics;
-    }
+ * @return AddPartitionsToTxnTransaction[]
+ */
+public function getTransactions(): array
+{
+    return $this->transactions;
+}
 
-    /**
-     * @param AddPartitionsToTxnTopic[] $topics
-     */
-    public function setTopics(array $topics): self
-    {
-        $this->topics = $topics;
+/**
+ * @param AddPartitionsToTxnTransaction[] $transactions
+ *
+ * @return self
+ */
+public function setTransactions(array $transactions): self
+{
+    $this->transactions = $transactions;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return string
+ */
+public function getV3AndBelowTransactionalId(): string
+{
+    return $this->v3AndBelowTransactionalId;
+}
+
+/**
+ * @param string $v3AndBelowTransactionalId
+ *
+ * @return self
+ */
+public function setV3AndBelowTransactionalId(string $v3AndBelowTransactionalId): self
+{
+    $this->v3AndBelowTransactionalId = $v3AndBelowTransactionalId;
+
+    return $this;
+}
+/**
+ * @return int
+ */
+public function getV3AndBelowProducerId(): int
+{
+    return $this->v3AndBelowProducerId;
+}
+
+/**
+ * @param int $v3AndBelowProducerId
+ *
+ * @return self
+ */
+public function setV3AndBelowProducerId(int $v3AndBelowProducerId): self
+{
+    $this->v3AndBelowProducerId = $v3AndBelowProducerId;
+
+    return $this;
+}
+/**
+ * @return int
+ */
+public function getV3AndBelowProducerEpoch(): int
+{
+    return $this->v3AndBelowProducerEpoch;
+}
+
+/**
+ * @param int $v3AndBelowProducerEpoch
+ *
+ * @return self
+ */
+public function setV3AndBelowProducerEpoch(int $v3AndBelowProducerEpoch): self
+{
+    $this->v3AndBelowProducerEpoch = $v3AndBelowProducerEpoch;
+
+    return $this;
+}
+/**
+ * @return AddPartitionsToTxnTopic[]
+ */
+public function getV3AndBelowTopics(): array
+{
+    return $this->v3AndBelowTopics;
+}
+
+/**
+ * @param AddPartitionsToTxnTopic[] $v3AndBelowTopics
+ *
+ * @return self
+ */
+public function setV3AndBelowTopics(array $v3AndBelowTopics): self
+{
+    $this->v3AndBelowTopics = $v3AndBelowTopics;
+
+    return $this;
+}
+
 }

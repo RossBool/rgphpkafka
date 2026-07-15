@@ -10,73 +10,114 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class AlterPartitionReassignmentsRequest extends AbstractRequest
 {
     /**
-     * The time in ms to wait for the request to complete.
-     *
-     * @var int
-     */
-    protected $timeoutMs = 60000;
+ * The time in ms to wait for the request to complete.
+ *
+ * @var int
+ */
+protected $timeoutMs = 60000;
 
-    /**
-     * The topics to reassign.
-     *
-     * @var ReassignableTopic[]
-     */
-    protected $topics = [];
+/**
+ * The option indicating whether changing the replication factor of any given partition as part of this request is a valid move.
+ *
+ * @var bool
+ */
+protected $allowReplicationFactorChange = true;
+
+/**
+ * The topics to reassign.
+ *
+ * @var ReassignableTopic[]
+ */
+protected $topics = [];
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('timeoutMs', 'int32', false, [0], [0], [], [], null),
-                new ProtocolField('topics', ReassignableTopic::class, true, [0], [0], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
-    }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('timeoutMs', 'int32', false, [0,1], [0,1], [], [], null),
+new ProtocolField('allowReplicationFactorChange', 'bool', false, [1], [0,1], [], [], null),
+new ProtocolField('topics', ReassignableTopic::class, true, [0,1], [0,1], [], [], null),
 
-    public function getRequestApiKey(): ?int
-    {
-        return 45;
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getRequestApiKey(): ?int
+{
+    return 45;
+}
 
-    public function getMaxSupportedVersion(): int
-    {
-        return 0;
-    }
+public function getMaxSupportedVersion(): int
+{
+    return 1;
+}
 
-    public function getFlexibleVersions(): array
-    {
-        return [0];
-    }
+public function getFlexibleVersions(): array
+{
+    return [0,1];
+}
 
-    public function getTimeoutMs(): int
-    {
-        return $this->timeoutMs;
-    }
-
-    public function setTimeoutMs(int $timeoutMs): self
-    {
-        $this->timeoutMs = $timeoutMs;
-
-        return $this;
-    }
 
     /**
-     * @return ReassignableTopic[]
-     */
-    public function getTopics(): array
-    {
-        return $this->topics;
-    }
+ * @return int
+ */
+public function getTimeoutMs(): int
+{
+    return $this->timeoutMs;
+}
 
-    /**
-     * @param ReassignableTopic[] $topics
-     */
-    public function setTopics(array $topics): self
-    {
-        $this->topics = $topics;
+/**
+ * @param int $timeoutMs
+ *
+ * @return self
+ */
+public function setTimeoutMs(int $timeoutMs): self
+{
+    $this->timeoutMs = $timeoutMs;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return bool
+ */
+public function getAllowReplicationFactorChange(): bool
+{
+    return $this->allowReplicationFactorChange;
+}
+
+/**
+ * @param bool $allowReplicationFactorChange
+ *
+ * @return self
+ */
+public function setAllowReplicationFactorChange(bool $allowReplicationFactorChange): self
+{
+    $this->allowReplicationFactorChange = $allowReplicationFactorChange;
+
+    return $this;
+}
+/**
+ * @return ReassignableTopic[]
+ */
+public function getTopics(): array
+{
+    return $this->topics;
+}
+
+/**
+ * @param ReassignableTopic[] $topics
+ *
+ * @return self
+ */
+public function setTopics(array $topics): self
+{
+    $this->topics = $topics;
+
+    return $this;
+}
+
 }

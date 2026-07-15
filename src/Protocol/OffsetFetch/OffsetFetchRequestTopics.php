@@ -1,0 +1,113 @@
+<?php
+
+declare(strict_types=1);
+
+namespace longlang\phpkafka\Protocol\OffsetFetch;
+
+use longlang\phpkafka\Protocol\AbstractStruct;
+use longlang\phpkafka\Protocol\ProtocolField;
+
+class OffsetFetchRequestTopics extends AbstractStruct
+{
+    /**
+ * The topic name.
+ *
+ * @var string
+ */
+protected $name = '';
+
+/**
+ * The topic ID.
+ *
+ * @var string
+ */
+protected $topicId = '';
+
+/**
+ * The partition indexes we would like to fetch offsets for.
+ *
+ * @var int[]
+ */
+protected $partitionIndexes = [];
+
+
+
+    public function __construct()
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('name', 'string', false, [8,9], [6,7,8,9,10], [], [], null),
+new ProtocolField('topicId', 'uuid', false, [10], [6,7,8,9,10], [], [], null),
+new ProtocolField('partitionIndexes', 'int32', true, [8,9,10], [6,7,8,9,10], [], [], null),
+
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
+    }
+}
+public function getFlexibleVersions(): array
+{
+    return [6,7,8,9,10];
+}
+
+
+    /**
+ * @return string
+ */
+public function getName(): string
+{
+    return $this->name;
+}
+
+/**
+ * @param string $name
+ *
+ * @return self
+ */
+public function setName(string $name): self
+{
+    $this->name = $name;
+
+    return $this;
+}
+/**
+ * @return string
+ */
+public function getTopicId(): string
+{
+    return $this->topicId;
+}
+
+/**
+ * @param string $topicId
+ *
+ * @return self
+ */
+public function setTopicId(string $topicId): self
+{
+    $this->topicId = $topicId;
+
+    return $this;
+}
+/**
+ * @return int[]
+ */
+public function getPartitionIndexes(): array
+{
+    return $this->partitionIndexes;
+}
+
+/**
+ * @param int[] $partitionIndexes
+ *
+ * @return self
+ */
+public function setPartitionIndexes(array $partitionIndexes): self
+{
+    $this->partitionIndexes = $partitionIndexes;
+
+    return $this;
+}
+
+}

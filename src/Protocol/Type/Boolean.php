@@ -17,7 +17,7 @@ class Boolean extends AbstractType
         return pack(self::FORAMT, $value);
     }
 
-    public static function unpack(string $value, ?int &$size = null): bool
+    public static function unpack(string $value, ?int & $size = null): bool
     {
         $size = 1;
 

@@ -1,0 +1,123 @@
+<?php
+
+declare(strict_types=1);
+
+namespace longlang\phpkafka\Protocol\StreamsGroupDescribe;
+
+use longlang\phpkafka\Protocol\AbstractRequest;
+use longlang\phpkafka\Protocol\ProtocolField;
+
+class StreamsGroupDescribeRequest extends AbstractRequest
+{
+    /**
+ * The ids of the groups to describe
+ *
+ * @var string[]
+ */
+protected $groupIds = [];
+
+/**
+ * Whether to include authorized operations.
+ *
+ * @var bool
+ */
+protected $includeAuthorizedOperations = false;
+
+/**
+ * Whether to include the full topology description from the topology description plugin in the response.
+ *
+ * @var bool
+ */
+protected $includeTopologyDescription = false;
+
+
+
+    public function __construct()
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('groupIds', 'string', true, [0,1], [0,1], [], [], null),
+new ProtocolField('includeAuthorizedOperations', 'bool', false, [0,1], [0,1], [], [], null),
+new ProtocolField('includeTopologyDescription', 'bool', false, [1], [0,1], [], [], null),
+
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
+    }
+}
+public function getRequestApiKey(): ?int
+{
+    return 89;
+}
+
+public function getMaxSupportedVersion(): int
+{
+    return 1;
+}
+
+public function getFlexibleVersions(): array
+{
+    return [0,1];
+}
+
+
+    /**
+ * @return string[]
+ */
+public function getGroupIds(): array
+{
+    return $this->groupIds;
+}
+
+/**
+ * @param string[] $groupIds
+ *
+ * @return self
+ */
+public function setGroupIds(array $groupIds): self
+{
+    $this->groupIds = $groupIds;
+
+    return $this;
+}
+/**
+ * @return bool
+ */
+public function getIncludeAuthorizedOperations(): bool
+{
+    return $this->includeAuthorizedOperations;
+}
+
+/**
+ * @param bool $includeAuthorizedOperations
+ *
+ * @return self
+ */
+public function setIncludeAuthorizedOperations(bool $includeAuthorizedOperations): self
+{
+    $this->includeAuthorizedOperations = $includeAuthorizedOperations;
+
+    return $this;
+}
+/**
+ * @return bool
+ */
+public function getIncludeTopologyDescription(): bool
+{
+    return $this->includeTopologyDescription;
+}
+
+/**
+ * @param bool $includeTopologyDescription
+ *
+ * @return self
+ */
+public function setIncludeTopologyDescription(bool $includeTopologyDescription): self
+{
+    $this->includeTopologyDescription = $includeTopologyDescription;
+
+    return $this;
+}
+
+}

@@ -44,7 +44,7 @@ class ArrayInt32 extends AbstractType
         return $result;
     }
 
-    public static function unpack(string $value, ?int &$size, string $elementType, int $apiVersion = 0): ?array
+    public static function unpack(string $value, ?int & $size, string $elementType, int $apiVersion = 0): ?array
     {
         $length = Int32::unpack($value, $tmpSize);
         if (-1 === $length) {

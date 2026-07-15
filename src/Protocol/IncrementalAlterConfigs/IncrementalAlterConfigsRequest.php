@@ -10,73 +10,87 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class IncrementalAlterConfigsRequest extends AbstractRequest
 {
     /**
-     * The incremental updates for each resource.
-     *
-     * @var AlterConfigsResource[]
-     */
-    protected $resources = [];
+ * The incremental updates for each resource.
+ *
+ * @var AlterConfigsResource[]
+ */
+protected $resources = [];
 
-    /**
-     * True if we should validate the request, but not change the configurations.
-     *
-     * @var bool
-     */
-    protected $validateOnly = false;
+/**
+ * True if we should validate the request, but not change the configurations.
+ *
+ * @var bool
+ */
+protected $validateOnly = false;
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('resources', AlterConfigsResource::class, true, [0, 1], [1], [], [], null),
-                new ProtocolField('validateOnly', 'bool', false, [0, 1], [1], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
-    }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('resources', AlterConfigsResource::class, true, [0,1], [1], [], [], null),
+new ProtocolField('validateOnly', 'bool', false, [0,1], [1], [], [], null),
 
-    public function getRequestApiKey(): ?int
-    {
-        return 44;
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getRequestApiKey(): ?int
+{
+    return 44;
+}
 
-    public function getMaxSupportedVersion(): int
-    {
-        return 1;
-    }
+public function getMaxSupportedVersion(): int
+{
+    return 1;
+}
 
-    public function getFlexibleVersions(): array
-    {
-        return [1];
-    }
+public function getFlexibleVersions(): array
+{
+    return [1];
+}
+
 
     /**
-     * @return AlterConfigsResource[]
-     */
-    public function getResources(): array
-    {
-        return $this->resources;
-    }
+ * @return AlterConfigsResource[]
+ */
+public function getResources(): array
+{
+    return $this->resources;
+}
 
-    /**
-     * @param AlterConfigsResource[] $resources
-     */
-    public function setResources(array $resources): self
-    {
-        $this->resources = $resources;
+/**
+ * @param AlterConfigsResource[] $resources
+ *
+ * @return self
+ */
+public function setResources(array $resources): self
+{
+    $this->resources = $resources;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return bool
+ */
+public function getValidateOnly(): bool
+{
+    return $this->validateOnly;
+}
 
-    public function getValidateOnly(): bool
-    {
-        return $this->validateOnly;
-    }
+/**
+ * @param bool $validateOnly
+ *
+ * @return self
+ */
+public function setValidateOnly(bool $validateOnly): self
+{
+    $this->validateOnly = $validateOnly;
 
-    public function setValidateOnly(bool $validateOnly): self
-    {
-        $this->validateOnly = $validateOnly;
+    return $this;
+}
 
-        return $this;
-    }
 }

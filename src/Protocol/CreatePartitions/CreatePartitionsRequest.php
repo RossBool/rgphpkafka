@@ -10,93 +10,114 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class CreatePartitionsRequest extends AbstractRequest
 {
     /**
-     * Each topic that we want to create new partitions inside.
-     *
-     * @var CreatePartitionsTopic[]
-     */
-    protected $topics = [];
+ * Each topic that we want to create new partitions inside.
+ *
+ * @var CreatePartitionsTopic[]
+ */
+protected $topics = [];
 
-    /**
-     * The time in ms to wait for the partitions to be created.
-     *
-     * @var int
-     */
-    protected $timeoutMs = 0;
+/**
+ * The time in ms to wait for the partitions to be created.
+ *
+ * @var int
+ */
+protected $timeoutMs = 0;
 
-    /**
-     * If true, then validate the request, but don't actually increase the number of partitions.
-     *
-     * @var bool
-     */
-    protected $validateOnly = false;
+/**
+ * If true, then validate the request, but don't actually increase the number of partitions.
+ *
+ * @var bool
+ */
+protected $validateOnly = false;
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('topics', CreatePartitionsTopic::class, true, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('timeoutMs', 'int32', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('validateOnly', 'bool', false, [0, 1, 2], [2], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
-    }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('topics', CreatePartitionsTopic::class, true, [0,1,2,3], [2,3], [], [], null),
+new ProtocolField('timeoutMs', 'int32', false, [0,1,2,3], [2,3], [], [], null),
+new ProtocolField('validateOnly', 'bool', false, [0,1,2,3], [2,3], [], [], null),
 
-    public function getRequestApiKey(): ?int
-    {
-        return 37;
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getRequestApiKey(): ?int
+{
+    return 37;
+}
 
-    public function getMaxSupportedVersion(): int
-    {
-        return 2;
-    }
+public function getMaxSupportedVersion(): int
+{
+    return 3;
+}
 
-    public function getFlexibleVersions(): array
-    {
-        return [2];
-    }
+public function getFlexibleVersions(): array
+{
+    return [2,3];
+}
+
 
     /**
-     * @return CreatePartitionsTopic[]
-     */
-    public function getTopics(): array
-    {
-        return $this->topics;
-    }
+ * @return CreatePartitionsTopic[]
+ */
+public function getTopics(): array
+{
+    return $this->topics;
+}
 
-    /**
-     * @param CreatePartitionsTopic[] $topics
-     */
-    public function setTopics(array $topics): self
-    {
-        $this->topics = $topics;
+/**
+ * @param CreatePartitionsTopic[] $topics
+ *
+ * @return self
+ */
+public function setTopics(array $topics): self
+{
+    $this->topics = $topics;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return int
+ */
+public function getTimeoutMs(): int
+{
+    return $this->timeoutMs;
+}
 
-    public function getTimeoutMs(): int
-    {
-        return $this->timeoutMs;
-    }
+/**
+ * @param int $timeoutMs
+ *
+ * @return self
+ */
+public function setTimeoutMs(int $timeoutMs): self
+{
+    $this->timeoutMs = $timeoutMs;
 
-    public function setTimeoutMs(int $timeoutMs): self
-    {
-        $this->timeoutMs = $timeoutMs;
+    return $this;
+}
+/**
+ * @return bool
+ */
+public function getValidateOnly(): bool
+{
+    return $this->validateOnly;
+}
 
-        return $this;
-    }
+/**
+ * @param bool $validateOnly
+ *
+ * @return self
+ */
+public function setValidateOnly(bool $validateOnly): self
+{
+    $this->validateOnly = $validateOnly;
 
-    public function getValidateOnly(): bool
-    {
-        return $this->validateOnly;
-    }
+    return $this;
+}
 
-    public function setValidateOnly(bool $validateOnly): self
-    {
-        $this->validateOnly = $validateOnly;
-
-        return $this;
-    }
 }

@@ -15,7 +15,7 @@ class String16 extends AbstractType
         return Int16::pack(\strlen($value)) . $value;
     }
 
-    public static function unpack(string $value, ?int &$size = null): string
+    public static function unpack(string $value, ?int & $size = null): string
     {
         $length = Int16::unpack(substr($value, 0, 2), $size);
         $result = substr($value, $size, $length);

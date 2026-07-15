@@ -10,63 +10,77 @@ use longlang\phpkafka\Protocol\ProtocolField;
 class DescribableLogDirTopic extends AbstractStruct
 {
     /**
-     * The topic name.
-     *
-     * @var string
-     */
-    protected $topic = '';
+ * The topic name.
+ *
+ * @var string
+ */
+protected $topic = '';
 
-    /**
-     * The partition indxes.
-     *
-     * @var int[]
-     */
-    protected $partitionIndex = [];
+/**
+ * The partition indexes.
+ *
+ * @var int[]
+ */
+protected $partitions = [];
+
+
 
     public function __construct()
-    {
-        if (!isset(self::$maps[self::class])) {
-            self::$maps[self::class] = [
-                new ProtocolField('topic', 'string', false, [0, 1, 2], [2], [], [], null),
-                new ProtocolField('partitionIndex', 'int32', true, [0, 1, 2], [2], [], [], null),
-            ];
-            self::$taggedFieldses[self::class] = [
-            ];
-        }
-    }
+{
+    if (!isset(self::$maps[self::class])) {
+        self::$maps[self::class] = [
+            new ProtocolField('topic', 'string', false, [0,1,2,3,4,5], [2,3,4,5], [], [], null),
+new ProtocolField('partitions', 'int32', true, [0,1,2,3,4,5], [2,3,4,5], [], [], null),
 
-    public function getFlexibleVersions(): array
-    {
-        return [2];
+        ];
+        self::$taggedFieldses[self::class] = [
+            
+        ];
     }
+}
+public function getFlexibleVersions(): array
+{
+    return [2,3,4,5];
+}
 
-    public function getTopic(): string
-    {
-        return $this->topic;
-    }
-
-    public function setTopic(string $topic): self
-    {
-        $this->topic = $topic;
-
-        return $this;
-    }
 
     /**
-     * @return int[]
-     */
-    public function getPartitionIndex(): array
-    {
-        return $this->partitionIndex;
-    }
+ * @return string
+ */
+public function getTopic(): string
+{
+    return $this->topic;
+}
 
-    /**
-     * @param int[] $partitionIndex
-     */
-    public function setPartitionIndex(array $partitionIndex): self
-    {
-        $this->partitionIndex = $partitionIndex;
+/**
+ * @param string $topic
+ *
+ * @return self
+ */
+public function setTopic(string $topic): self
+{
+    $this->topic = $topic;
 
-        return $this;
-    }
+    return $this;
+}
+/**
+ * @return int[]
+ */
+public function getPartitions(): array
+{
+    return $this->partitions;
+}
+
+/**
+ * @param int[] $partitions
+ *
+ * @return self
+ */
+public function setPartitions(array $partitions): self
+{
+    $this->partitions = $partitions;
+
+    return $this;
+}
+
 }

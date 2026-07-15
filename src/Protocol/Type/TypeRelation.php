@@ -28,6 +28,9 @@ class TypeRelation
         'string'      => ['string', 'String16', 'CompactString', 'NullableString', 'CompactNullableString'],
         'bytes'       => ['string', 'String32', 'CompactString', 'NullableString32', 'CompactNullableString'],
         'varint'      => ['int', 'varint', 'varint', 'varint', 'varint'],
+        'uint16'      => ['int', 'UInt16', 'UInt16', 'UInt16', 'UInt16'],
+        'uuid'        => ['string', 'Uuid', 'Uuid', 'Uuid', 'Uuid'],
+        'records'     => ['\longlang\phpkafka\Protocol\RecordBatch\RecordBatch', '\longlang\phpkafka\Protocol\RecordBatch\RecordBatch', '\longlang\phpkafka\Protocol\RecordBatch\RecordBatch', '\longlang\phpkafka\Protocol\RecordBatch\RecordBatch', '\longlang\phpkafka\Protocol\RecordBatch\RecordBatch'],
         'RecordBatch' => ['\longlang\phpkafka\Protocol\RecordBatch\RecordBatch', '\longlang\phpkafka\Protocol\RecordBatch\RecordBatch', '\longlang\phpkafka\Protocol\RecordBatch\RecordBatch', '\longlang\phpkafka\Protocol\RecordBatch\RecordBatch'],
     ];
 
