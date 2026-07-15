@@ -47,7 +47,7 @@
   // AddPartitionsToTxn call. If V2 is disabled, the client can't use produce request version higher than 11 within
   // a transaction.
   // Version 13 replaces topic names with topic IDs (KIP-516). May return UNKNOWN_TOPIC_ID error code.
-  "validVersions": "3-13",
+  "validVersions": "3-12",
   "flexibleVersions": "9+",
   "fields": [
     { "name": "TransactionalId", "type": "string", "versions": "3+", "nullableVersions": "3+", "default": "null", "entityType": "transactionalId",

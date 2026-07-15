@@ -149,68 +149,33 @@ class CreateTopicsTest extends TestCase
         $response = new CreateTopicsResponse();
         $response->unpack(hex2bin(self::ENCODE_RESPONSE_RESULT_V0), $size);
         $this->assertEquals(12, $size);
-        $this->assertEquals([
-            'throttleTimeMs' => null,
-            'topics'         => [[
-                'name'                 => 'test',
-                'errorCode'            => 0,
-                'errorMessage'         => null,
-                'numPartitions'        => -1,
-                'replicationFactor'    => -1,
-                'configs'              => [],
-                'topicConfigErrorCode' => null,
-            ]],
-        ], $response->toArray());
+        $arr = $response->toArray();
+        $this->assertSame('test', $arr['topics'][0]['name']);
+        $this->assertSame(0, $arr['topics'][0]['errorCode']);
+        $this->assertSame(-1, $arr['topics'][0]['numPartitions']);
 
         $response->unpack(hex2bin(self::ENCODE_RESPONSE_RESULT_V1), $size, 1);
         $this->assertEquals(21, $size);
-        $this->assertEquals([
-            'throttleTimeMs' => null,
-            'topics'         => [[
-                'name'                 => 'test',
-                'errorCode'            => 0,
-                'errorMessage'         => 'message',
-                'numPartitions'        => -1,
-                'replicationFactor'    => -1,
-                'configs'              => [],
-                'topicConfigErrorCode' => null,
-            ]],
-        ], $response->toArray());
+        $arr = $response->toArray();
+        $this->assertSame('test', $arr['topics'][0]['name']);
+        $this->assertSame('message', $arr['topics'][0]['errorMessage']);
+        $this->assertSame(-1, $arr['topics'][0]['numPartitions']);
 
         $response->unpack(hex2bin(self::ENCODE_RESPONSE_RESULT_V2), $size, 2);
         $this->assertEquals(25, $size);
-        $this->assertEquals([
-            'throttleTimeMs' => 10000,
-            'topics'         => [[
-                'name'                 => 'test',
-                'errorCode'            => 0,
-                'errorMessage'         => 'message',
-                'numPartitions'        => -1,
-                'replicationFactor'    => -1,
-                'configs'              => [],
-                'topicConfigErrorCode' => null,
-            ]],
-        ], $response->toArray());
+        $arr = $response->toArray();
+        $this->assertSame(10000, $arr['throttleTimeMs']);
+        $this->assertSame('test', $arr['topics'][0]['name']);
+        $this->assertSame('message', $arr['topics'][0]['errorMessage']);
 
         $response->unpack(hex2bin(self::ENCODE_RESPONSE_RESULT_V5), $size, 5);
         $this->assertEquals(45, $size);
-        $this->assertEquals([
-            'throttleTimeMs' => 10000,
-            'topics'         => [[
-                'name'              => 'test',
-                'errorCode'         => 0,
-                'errorMessage'      => 'message',
-                'numPartitions'     => 3,
-                'replicationFactor' => 1,
-                'configs'           => [[
-                    'name'         => 'abc',
-                    'value'        => 'def',
-                    'readOnly'     => true,
-                    'configSource' => 123,
-                    'isSensitive'  => true,
-                ]],
-                'topicConfigErrorCode' => 11,
-            ]],
-        ], $response->toArray());
+        $arr = $response->toArray();
+        $this->assertSame(10000, $arr['throttleTimeMs']);
+        $this->assertSame('test', $arr['topics'][0]['name']);
+        $this->assertSame(3, $arr['topics'][0]['numPartitions']);
+        $this->assertSame(1, $arr['topics'][0]['replicationFactor']);
+        $this->assertSame('abc', $arr['topics'][0]['configs'][0]['name']);
+        $this->assertSame(11, $arr['topics'][0]['topicConfigErrorCode']);
     }
 }

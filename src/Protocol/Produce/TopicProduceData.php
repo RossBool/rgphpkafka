@@ -36,9 +36,9 @@ protected $partitionData = [];
 {
     if (!isset(self::$maps[self::class])) {
         self::$maps[self::class] = [
-            new ProtocolField('name', 'string', false, [0,1,2,3,4,5,6,7,8,9,10,11,12], [9,10,11,12,13], [], [], null),
-new ProtocolField('topicId', 'uuid', false, [13], [9,10,11,12,13], [], [], null),
-new ProtocolField('partitionData', PartitionProduceData::class, true, [0,1,2,3,4,5,6,7,8,9,10,11,12,13], [9,10,11,12,13], [], [], null),
+            new ProtocolField('name', 'string', false, [0,1,2,3,4,5,6,7,8,9,10,11,12], [9,10,11,12], [], [], null),
+new ProtocolField('topicId', 'uuid', false, [], [9,10,11,12], [], [], null),
+new ProtocolField('partitionData', PartitionProduceData::class, true, [0,1,2,3,4,5,6,7,8,9,10,11,12], [9,10,11,12], [], [], null),
 
         ];
         self::$taggedFieldses[self::class] = [
@@ -48,7 +48,7 @@ new ProtocolField('partitionData', PartitionProduceData::class, true, [0,1,2,3,4
 }
 public function getFlexibleVersions(): array
 {
-    return [9,10,11,12,13];
+    return [9,10,11,12];
 }
 
 

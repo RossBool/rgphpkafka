@@ -194,7 +194,16 @@ CODE;
             return [(int) $matches['single']];
         }
         if ('' !== ($matches['plus'] ?? '')) {
-            return range((int) $matches['plus'], (int) $maxVersion);
+            $start = (int) $matches['plus'];
+            $end = (int) $maxVersion;
+            // "N+" means versions N through maxVersion. If N > maxVersion
+            // (field introduced in a version higher than this message supports),
+            // the field never participates — return empty, NOT a descending range.
+            if ($start > $end) {
+                return [];
+            }
+
+            return range($start, $end);
         }
         if ('' !== ($matches['from'] ?? '') && '' !== ($matches['to'] ?? '')) {
             return range((int) $matches['from'], (int) $matches['to']);

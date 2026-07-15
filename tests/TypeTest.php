@@ -16,6 +16,8 @@ use longlang\phpkafka\Protocol\Type\Int64;
 use longlang\phpkafka\Protocol\Type\Int8;
 use longlang\phpkafka\Protocol\Type\NullableString;
 use longlang\phpkafka\Protocol\Type\NullableString32;
+use longlang\phpkafka\Protocol\Type\UInt16;
+use longlang\phpkafka\Protocol\Type\Uuid;
 use longlang\phpkafka\Protocol\Type\String16;
 use longlang\phpkafka\Protocol\Type\String32;
 use longlang\phpkafka\Protocol\Type\UInt32;
@@ -243,5 +245,59 @@ class TypeTest extends TestCase
         $this->assertEquals('06000000010000000200000003', bin2hex($encodeResult));
         $this->assertEquals($exceptedArray, VarIntCompactArray::unpack($encodeResult, $size, Int32::class));
         $this->assertEquals(13, $size);
+    }
+
+    public function testUInt16(): void
+    {
+        // boundary values
+        foreach ([0, 1, 255, 256, 8080, 65535] as $value) {
+            $encodeResult = UInt16::pack($value);
+            $this->assertEquals(2, strlen($encodeResult));
+            $this->assertEquals($value, UInt16::unpack($encodeResult, $size));
+            $this->assertEquals(2, $size, 'value ' . $value);
+        }
+
+        // big-endian byte order: 256 → 0x0100
+        $this->assertEquals('0100', bin2hex(UInt16::pack(256)));
+        $this->assertEquals('1f90', bin2hex(UInt16::pack(8080)));
+
+        // out-of-range rejection
+        $this->expectException(\InvalidArgumentException::class);
+        UInt16::pack(-1);
+    }
+
+    public function testUInt16Overflow(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        UInt16::pack(65536);
+    }
+
+    public function testUuid(): void
+    {
+        // 32-char hex round-trip
+        $hex = '0123456789abcdef0123456789abcdef';
+        $encodeResult = Uuid::pack($hex);
+        $this->assertEquals(16, strlen($encodeResult));
+        $this->assertEquals($hex, Uuid::unpack($encodeResult, $size));
+        $this->assertEquals(16, $size);
+
+        // 16-byte binary round-trip
+        $binary = hex2bin($hex);
+        $this->assertEquals($hex, Uuid::unpack(Uuid::pack($binary), $size));
+    }
+
+    public function testUuidEmpty(): void
+    {
+        // empty string → 16 zero bytes (Kafka "no uuid" convention)
+        $encodeResult = Uuid::pack('');
+        $this->assertEquals(16, strlen($encodeResult));
+        $this->assertEquals(str_repeat('0', 32), Uuid::unpack($encodeResult, $size));
+        $this->assertEquals(16, $size);
+    }
+
+    public function testUuidInvalidLength(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        Uuid::pack('too-short');
     }
 }

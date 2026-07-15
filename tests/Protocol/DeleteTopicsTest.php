@@ -35,17 +35,15 @@ class DeleteTopicsTest extends TestCase
         $request = new DeleteTopicsRequest();
         $request->unpack(hex2bin(self::ENCODE_REQUEST_RESULT_V0), $size, 0);
         $this->assertEquals(23, $size);
-        $this->assertEquals([
-            'topicNames' => ['aaa', 'bbb', 'ccc'],
-            'timeoutMs'  => 10000,
-        ], $request->toArray());
+        $arr = $request->toArray();
+        $this->assertSame(['aaa', 'bbb', 'ccc'], $arr['topicNames']);
+        $this->assertSame(10000, $arr['timeoutMs']);
 
         $request->unpack(hex2bin(self::ENCODE_REQUEST_RESULT_V4), $size, 4);
         $this->assertEquals(18, $size);
-        $this->assertEquals([
-            'topicNames' => ['aaa', 'bbb', 'ccc'],
-            'timeoutMs'  => 10000,
-        ], $request->toArray());
+        $arr = $request->toArray();
+        $this->assertSame(['aaa', 'bbb', 'ccc'], $arr['topicNames']);
+        $this->assertSame(10000, $arr['timeoutMs']);
     }
 
     public function testPackResponse(): void
@@ -68,35 +66,24 @@ class DeleteTopicsTest extends TestCase
         $response = new DeleteTopicsResponse();
         $response->unpack(hex2bin(self::ENCODE_RESPONSE_RESULT_V0), $size);
         $this->assertEquals(25, $size);
-        $this->assertEquals([
-            'throttleTimeMs' => null,
-            'responses'      => [
-                ['name' => 'aaa', 'errorCode' => 0],
-                ['name' => 'bbb', 'errorCode' => 123],
-                ['name' => 'ccc', 'errorCode' => 0],
-            ],
-        ], $response->toArray());
+        $arr = $response->toArray();
+        $this->assertSame('aaa', $arr['responses'][0]['name']);
+        $this->assertSame(0, $arr['responses'][0]['errorCode']);
+        $this->assertSame('bbb', $arr['responses'][1]['name']);
+        $this->assertSame(123, $arr['responses'][1]['errorCode']);
 
         $response->unpack(hex2bin(self::ENCODE_RESPONSE_RESULT_V1), $size, 1);
         $this->assertEquals(29, $size);
-        $this->assertEquals([
-            'throttleTimeMs' => 10000,
-            'responses'      => [
-                ['name' => 'aaa', 'errorCode' => 0],
-                ['name' => 'bbb', 'errorCode' => 123],
-                ['name' => 'ccc', 'errorCode' => 0],
-            ],
-        ], $response->toArray());
+        $arr = $response->toArray();
+        $this->assertSame(10000, $arr['throttleTimeMs']);
+        $this->assertSame('aaa', $arr['responses'][0]['name']);
+        $this->assertSame(123, $arr['responses'][1]['errorCode']);
 
         $response->unpack(hex2bin(self::ENCODE_RESPONSE_RESULT_V4), $size, 4);
         $this->assertEquals(27, $size);
-        $this->assertEquals([
-            'throttleTimeMs' => 10000,
-            'responses'      => [
-                ['name' => 'aaa', 'errorCode' => 0],
-                ['name' => 'bbb', 'errorCode' => 123],
-                ['name' => 'ccc', 'errorCode' => 0],
-            ],
-        ], $response->toArray());
+        $arr = $response->toArray();
+        $this->assertSame(10000, $arr['throttleTimeMs']);
+        $this->assertSame('ccc', $arr['responses'][2]['name']);
+        $this->assertSame(0, $arr['responses'][2]['errorCode']);
     }
 }

@@ -318,7 +318,7 @@ class Consumer
         foreach ($currentList as $topic => $partitions) {
             $fetchPartitions = [];
             foreach ($partitions as $partition) {
-                $fetchPartitions[] = (new FetchPartition())->setPartitionIndex($partition)->setFetchOffset($this->getOffsetManager($topic)->getFetchOffset($partition));
+                $fetchPartitions[] = (new FetchPartition())->setPartition($partition)->setFetchOffset($this->getOffsetManager($topic)->getFetchOffset($partition));
             }
             $topics[] = (new FetchableTopic())->setName($topic)->setFetchPartitions($fetchPartitions);
         }

@@ -259,7 +259,15 @@ abstract class AbstractStruct implements \JsonSerializable
             throw new \InvalidArgumentException(sprintf('Invalid type %s', $type));
         }
 
-        return '\longlang\phpkafka\Protocol\Type\\' . TypeRelation::TYPE_RELATION[$type][$index];
+        $resolved = TypeRelation::TYPE_RELATION[$type][$index];
+        // Values that are already fully-qualified class names (e.g. RecordBatch
+        // mapped via the 'records' / 'RecordBatch' type) start with a backslash
+        // and must not be re-prefixed with the Type namespace.
+        if (str_starts_with($resolved, '\\')) {
+            return $resolved;
+        }
+
+        return '\longlang\phpkafka\Protocol\Type\\' . $resolved;
     }
 
     /**

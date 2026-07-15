@@ -36,12 +36,12 @@ protected $nodeEndpoints = [];
 {
     if (!isset(self::$maps[self::class])) {
         self::$maps[self::class] = [
-            new ProtocolField('responses', TopicProduceResponse::class, true, [0,1,2,3,4,5,6,7,8,9,10,11,12,13], [9,10,11,12,13], [], [], null),
-new ProtocolField('throttleTimeMs', 'int32', false, [1,2,3,4,5,6,7,8,9,10,11,12,13], [9,10,11,12,13], [], [], null),
+            new ProtocolField('responses', TopicProduceResponse::class, true, [0,1,2,3,4,5,6,7,8,9,10,11,12], [9,10,11,12], [], [], null),
+new ProtocolField('throttleTimeMs', 'int32', false, [1,2,3,4,5,6,7,8,9,10,11,12], [9,10,11,12], [], [], null),
 
         ];
         self::$taggedFieldses[self::class] = [
-            new ProtocolField('nodeEndpoints', NodeEndpoint::class, true, [10,11,12,13], [9,10,11,12,13], [], [10,11,12,13], 0),
+            new ProtocolField('nodeEndpoints', NodeEndpoint::class, true, [10,11,12], [9,10,11,12], [], [10,11,12], 0),
 
         ];
     }
@@ -53,7 +53,7 @@ public function getRequestApiKey(): ?int
 
 public function getFlexibleVersions(): array
 {
-    return [9,10,11,12,13];
+    return [9,10,11,12];
 }
 
 

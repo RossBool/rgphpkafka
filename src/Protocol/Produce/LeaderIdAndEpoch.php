@@ -29,8 +29,8 @@ protected $leaderEpoch = -1;
 {
     if (!isset(self::$maps[self::class])) {
         self::$maps[self::class] = [
-            new ProtocolField('leaderId', 'int32', false, [10,11,12,13], [9,10,11,12,13], [], [], null),
-new ProtocolField('leaderEpoch', 'int32', false, [10,11,12,13], [9,10,11,12,13], [], [], null),
+            new ProtocolField('leaderId', 'int32', false, [10,11,12], [9,10,11,12], [], [], null),
+new ProtocolField('leaderEpoch', 'int32', false, [10,11,12], [9,10,11,12], [], [], null),
 
         ];
         self::$taggedFieldses[self::class] = [
@@ -40,7 +40,7 @@ new ProtocolField('leaderEpoch', 'int32', false, [10,11,12,13], [9,10,11,12,13],
 }
 public function getFlexibleVersions(): array
 {
-    return [9,10,11,12,13];
+    return [9,10,11,12];
 }
 
 

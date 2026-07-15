@@ -6,10 +6,10 @@ namespace longlang\phpkafka\Consumer;
 
 use longlang\phpkafka\Broker;
 use longlang\phpkafka\Protocol\ErrorCode;
-use longlang\phpkafka\Protocol\ListOffset\ListOffsetPartition;
-use longlang\phpkafka\Protocol\ListOffset\ListOffsetRequest;
-use longlang\phpkafka\Protocol\ListOffset\ListOffsetResponse;
-use longlang\phpkafka\Protocol\ListOffset\ListOffsetTopic;
+use longlang\phpkafka\Protocol\ListOffsets\ListOffsetsPartition;
+use longlang\phpkafka\Protocol\ListOffsets\ListOffsetsRequest;
+use longlang\phpkafka\Protocol\ListOffsets\ListOffsetsResponse;
+use longlang\phpkafka\Protocol\ListOffsets\ListOffsetsTopic;
 use longlang\phpkafka\Protocol\OffsetCommit\OffsetCommitRequest;
 use longlang\phpkafka\Protocol\OffsetCommit\OffsetCommitRequestPartition;
 use longlang\phpkafka\Protocol\OffsetCommit\OffsetCommitRequestTopic;
@@ -122,10 +122,10 @@ class OffsetManager
         }
         $topicsMeta = $broker->getTopicsMeta($topicName);
         foreach ($brokerPartitionMap as $brokerId => $partitions) {
-            $request = new ListOffsetRequest();
+            $request = new ListOffsetsRequest();
             $topicPartitions = [];
             foreach ($partitions as $partition) {
-                $topicPartitions[] = $listOffsetPartition = new ListOffsetPartition();
+                $topicPartitions[] = $listOffsetPartition = new ListOffsetsPartition();
                 foreach ($topicsMeta as $topicMeta) {
                     if ($topicMeta->getName() === $topicName) {
                         foreach ($topicMeta->getPartitions() as $partitionObject) {
@@ -140,10 +140,10 @@ class OffsetManager
                 $listOffsetPartition->setPartitionIndex($partition)->setTimestamp(-1);
             }
             $request->setTopics([
-                (new ListOffsetTopic())->setName($topicName)->setPartitions($topicPartitions),
+                (new ListOffsetsTopic())->setName($topicName)->setPartitions($topicPartitions),
             ]);
             $client = $broker->getClientByBrokerId($brokerId);
-            /** @var ListOffsetResponse $response */
+            /** @var ListOffsetsResponse $response */
             $response = KafkaUtil::retry($client, $request, $retry, 0);
             foreach ($response->getTopics() as $topic) {
                 foreach ($topic->getPartitions() as $partition) {

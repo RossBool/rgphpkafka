@@ -89,7 +89,7 @@ class Producer
             if (isset($topicsMap[$brokerId][$topicName])) {
                 /** @var TopicProduceData $topicData */
                 $topicData = $topicsMap[$brokerId][$topicName];
-                $partitions = $topicData->getPartitions();
+                $partitions = $topicData->getPartitionData();
             } else {
                 $topicData = $topicsMap[$brokerId][$topicName] = new TopicProduceData();
                 $topicData->setName($topicName);
@@ -102,7 +102,7 @@ class Producer
                 $records = $recordBatch->getRecords();
             } else {
                 $partition = $partitions[] = $partitionsMap[$topicName][$partitionIndex] = new PartitionProduceData();
-                $partition->setPartitionIndex($partitionIndex);
+                $partition->setIndex($partitionIndex);
                 $partition->setRecords($recordBatch = new RecordBatch());
                 $recordBatch->setProducerId($config->getProducerId());
                 $recordBatch->setProducerEpoch($config->getProducerEpoch());
@@ -131,7 +131,7 @@ class Producer
             $record->setTimestampDelta(((int) (microtime(true) * 1000)) - $timestamp);
             $recordBatch->setRecords($records);
 
-            $topicData->setPartitions($partitions);
+            $topicData->setPartitionData($partitions);
         }
         $produceRetry = $config->getProduceRetry();
         $produceRetrySleep = $config->getProduceRetrySleep();
@@ -142,19 +142,21 @@ class Producer
                     foreach ($topics as $k => $v) {
                         $name = $v->getName();
                         if (isset($retryTopics[$name])) {
-                            $partitions = $v->getPartitions();
+                            $partitions = $v->getPartitionData();
                             foreach ($partitions as $i => $partition) {
-                                if (!\in_array($partition->getPartitionIndex(), $retryTopics[$name])) {
+                                if (!\in_array($partition->getIndex(), $retryTopics[$name])) {
                                     unset($partitions[$i]);
                                 }
                             }
-                            $v->setPartitions($partitions);
+                            $v->setPartitionData($partitions);
                         } else {
                             unset($topics[$k]);
                         }
                     }
                 }
-                $request->setTopics($topics);
+                $request->setTopicData($topics);
+                foreach ($request->getTopicData() as $td) {
+                }
 
                 $hasResponse = 0 !== $acks;
                 $client = $broker->getClient($brokerId);
@@ -167,12 +169,12 @@ class Producer
                 $retryTopics = [];
                 foreach ($response->getResponses() as $response) {
                     $topicName = $response->getName();
-                    foreach ($response->getPartitions() as $partition) {
+                    foreach ($response->getPartitionResponses() as $partition) {
                         $errorCode = $partition->getErrorCode();
                         switch ($errorCode) {
                             case ErrorCode::UNKNOWN_TOPIC_OR_PARTITION:
                             case ErrorCode::LEADER_NOT_AVAILABLE:
-                                $retryTopics[$topicName][] = $partition->getPartitionIndex();
+                                $retryTopics[$topicName][] = $partition->getIndex();
                                 break;
                             default:
                                 ErrorCode::check($errorCode);

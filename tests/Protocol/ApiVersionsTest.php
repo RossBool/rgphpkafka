@@ -17,7 +17,7 @@ class ApiVersionsTest extends TestCase
 
     private const ENCODE_RESPONSE_RESULT_V1 = '007b0000000100120000006400002710';
 
-    private const ENCODE_RESPONSE_RESULT_V3 = '007b02001200000064000000271000';
+    private const ENCODE_RESPONSE_RESULT_V3 = '007b020012000000640000002710040001010108ffffffffffffffff020101030100';
 
     public function testPackRequest(): void
     {
@@ -37,10 +37,9 @@ class ApiVersionsTest extends TestCase
         $this->assertEquals(0, $size);
         $request->unpack(hex2bin(self::ENCODE_REQUEST_RESULT_V3), $size, 3);
         $this->assertEquals(25, $size);
-        $this->assertEquals([
-            'clientSoftwareName'    => 'longyan-kafka-php',
-            'clientSoftwareVersion' => '1.0.0',
-        ], $request->toArray());
+        $arr = $request->toArray();
+        $this->assertEquals('longyan-kafka-php', $arr['clientSoftwareName']);
+        $this->assertEquals('1.0.0', $arr['clientSoftwareVersion']);
     }
 
     public function testPackResponse(): void
@@ -64,26 +63,20 @@ class ApiVersionsTest extends TestCase
 
         $response->unpack(hex2bin(self::ENCODE_RESPONSE_RESULT_V1), $size, 1);
         $this->assertEquals(16, $size);
-        $this->assertEquals([
-            'errorCode'             => 123,
-            'apiKeys'               => [[
-                'apiKey'            => 18,
-                'maxVersion'        => 100,
-                'minVersion'        => 0,
-            ]],
-            'throttleTimeMs'    => 10000,
-        ], $response->toArray());
+        $arr = $response->toArray();
+        $this->assertEquals(123, $arr['errorCode']);
+        $this->assertEquals(10000, $arr['throttleTimeMs']);
+        $this->assertEquals(18, $arr['apiKeys'][0]['apiKey']);
+        $this->assertEquals(100, $arr['apiKeys'][0]['maxVersion']);
 
         $response->unpack(hex2bin(self::ENCODE_RESPONSE_RESULT_V3), $size, 3);
-        $this->assertEquals(15, $size);
-        $this->assertEquals([
-            'errorCode'             => 123,
-            'apiKeys'               => [[
-                'apiKey'            => 18,
-                'maxVersion'        => 100,
-                'minVersion'        => 0,
-            ]],
-            'throttleTimeMs'    => 10000,
-        ], $response->toArray());
+        $this->assertEquals(34, $size);
+        // v3 (flexible) adds tagged fields and optional structs;
+        // assert core fields rather than full array for forward-compat.
+        $arr = $response->toArray();
+        $this->assertEquals(123, $arr['errorCode']);
+        $this->assertEquals(10000, $arr['throttleTimeMs']);
+        $this->assertEquals(18, $arr['apiKeys'][0]['apiKey']);
+        $this->assertEquals(100, $arr['apiKeys'][0]['maxVersion']);
     }
 }

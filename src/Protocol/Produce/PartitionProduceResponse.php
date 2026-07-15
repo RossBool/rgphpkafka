@@ -71,24 +71,24 @@ protected $currentLeader = null;
 {
     if (!isset(self::$maps[self::class])) {
         self::$maps[self::class] = [
-            new ProtocolField('index', 'int32', false, [0,1,2,3,4,5,6,7,8,9,10,11,12,13], [9,10,11,12,13], [], [], null),
-new ProtocolField('errorCode', 'int16', false, [0,1,2,3,4,5,6,7,8,9,10,11,12,13], [9,10,11,12,13], [], [], null),
-new ProtocolField('baseOffset', 'int64', false, [0,1,2,3,4,5,6,7,8,9,10,11,12,13], [9,10,11,12,13], [], [], null),
-new ProtocolField('logAppendTimeMs', 'int64', false, [2,3,4,5,6,7,8,9,10,11,12,13], [9,10,11,12,13], [], [], null),
-new ProtocolField('logStartOffset', 'int64', false, [5,6,7,8,9,10,11,12,13], [9,10,11,12,13], [], [], null),
-new ProtocolField('recordErrors', BatchIndexAndErrorMessage::class, true, [8,9,10,11,12,13], [9,10,11,12,13], [], [], null),
-new ProtocolField('errorMessage', 'string', false, [8,9,10,11,12,13], [9,10,11,12,13], [8,9,10,11,12,13], [], null),
+            new ProtocolField('index', 'int32', false, [0,1,2,3,4,5,6,7,8,9,10,11,12], [9,10,11,12], [], [], null),
+new ProtocolField('errorCode', 'int16', false, [0,1,2,3,4,5,6,7,8,9,10,11,12], [9,10,11,12], [], [], null),
+new ProtocolField('baseOffset', 'int64', false, [0,1,2,3,4,5,6,7,8,9,10,11,12], [9,10,11,12], [], [], null),
+new ProtocolField('logAppendTimeMs', 'int64', false, [2,3,4,5,6,7,8,9,10,11,12], [9,10,11,12], [], [], null),
+new ProtocolField('logStartOffset', 'int64', false, [5,6,7,8,9,10,11,12], [9,10,11,12], [], [], null),
+new ProtocolField('recordErrors', BatchIndexAndErrorMessage::class, true, [8,9,10,11,12], [9,10,11,12], [], [], null),
+new ProtocolField('errorMessage', 'string', false, [8,9,10,11,12], [9,10,11,12], [8,9,10,11,12], [], null),
 
         ];
         self::$taggedFieldses[self::class] = [
-            new ProtocolField('currentLeader', LeaderIdAndEpoch::class, false, [10,11,12,13], [9,10,11,12,13], [], [10,11,12,13], 0),
+            new ProtocolField('currentLeader', LeaderIdAndEpoch::class, false, [10,11,12], [9,10,11,12], [], [10,11,12], 0),
 
         ];
     }
 }
 public function getFlexibleVersions(): array
 {
-    return [9,10,11,12,13];
+    return [9,10,11,12];
 }
 
 
